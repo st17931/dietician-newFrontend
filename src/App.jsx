@@ -14,6 +14,7 @@ import Users from "./pages/Dashboard/Admin/Users.jsx";
 import AdminHome from "./pages/Dashboard/Admin/Home.jsx";
 import Requests from "./pages/Dashboard/Admin/Requests.jsx";
 import SingleUser from "./pages/Dashboard/Admin/SingleUser.jsx";
+import RaiseRequest from "./components/RaiseRequest.jsx";
 // import { useSelector } from "react-redux";
 import Protectedroutes from "./components/Protectedroutes.jsx";
 
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/UserProfile" element={<Protectedroutes><UserProfile /></Protectedroutes>} />
           <Route path="/UserProgress" element={<Protectedroutes><UserProgress /></Protectedroutes>} />
           <Route path="/fitness" element={<Protectedroutes><FitnessCoach /></Protectedroutes>} />
+          <Route path="/raiseRequest" element={<Protectedroutes><RaiseRequest/></Protectedroutes>}/>
 
         </Routes>
       </Router>

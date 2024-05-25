@@ -28,7 +28,7 @@ export default function Protectedroutes({ children }) {
             } else {
                 navigate("/");
             }
-        } else if (currentPath === "fitness" || currentPath === "UserProfile" || currentPath === "UserProgress") {
+        } else if (currentPath === "fitness" || currentPath === "UserProfile" || currentPath === "UserProgress" || currentPath === "raiseRequest") {
             if (decoded?.isAdmin === false && decoded?.isUser === true) {
                 setIsAuthorized(true);
             } else {

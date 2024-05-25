@@ -140,7 +140,7 @@ const Navbar = () => {
                           className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100"
                           onClick={toggleDropdown}
                         >
-                          {(decoded.isAdmin) ? "Welcome Admin" : "Welcome User"}
+                          {decoded.name}
                           <svg
                             className="-mr-1 ml-2 h-5 w-5"
                             xmlns="http://www.w3.org/2000/svg"
@@ -178,6 +178,13 @@ const Navbar = () => {
                               to={"/UserProfile"}
                             >
                               UserProfile
+                            </Link>}
+
+                            {(decoded.isUser) && <Link
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                              to={"/raiseRequest"}
+                            >
+                              Raise A Request
                             </Link>}
 
                             <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left" onClick={logoutHandler}>Logout</button>

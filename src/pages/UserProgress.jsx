@@ -7,6 +7,8 @@ const UserProgress = () => {
   const token = localStorage.getItem("dietToken");
   const decoded = token ? decodeJwt(token) : null;
 
+  console.log("decoded jwt in the userprogress component", decoded)
+
 
 
   async function handleUpload(e) {
