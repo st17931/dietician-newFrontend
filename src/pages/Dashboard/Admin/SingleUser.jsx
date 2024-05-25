@@ -1,13 +1,46 @@
-import { json, useLocation } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import Meal from './Meal';
 
+
+const ImageComponent = ({ gifData }) => {
+    // Assuming gifData is the base64 encoded GIF image data
+    
+    const createBase64String = (gifData) => {
+        let binary = '';
+        const bytes = new Uint8Array(gifData);
+        const length = bytes.byteLength;
+      
+        for (let i = 0; i < length; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+      
+        return btoa(binary);
+      };
+      const base64String = createBase64String(gifData);
+  
+    return (
+      <div>
+        {gifData && (
+          <img
+            src={`data:image/png;base64,${base64String}`}
+            className="rounded-lg object-cover h-full"
+            alt="GIF Image"
+          />
+        )}
+      </div>
+    );
+  };
+
+
 const SingleUser = () => {
-    console.log("Single user component ren");
+    
+
     let location = useLocation();
     const [totalMeals, setTotalMeals] = useState([]);
     const [recommendedMeal, setrecommendedMeal] = useState([]);
+    const [progressImage, setProgressImages] = useState([]);
 
     console.log("location is",location)
 
@@ -72,7 +105,32 @@ const SingleUser = () => {
         fetchMealData();
     }, [location.state.userData])
 
+    useEffect(()=>{
+        async function fetchImage(){
+            try {
+                const res = await fetch("http://localhost:3333/users/getUsersPic", {
+                  method: "POST",
+                  body: JSON.stringify({email: location.state.userData.email})
+                });
+          
+                const resJson = await res.json();
+                console.log("Res.json in the single user is", resJson);
+          
+                if (resJson.success) {
+                  setProgressImages(resJson.data);
+                  
+                } else {
+                  toast.error("got some problem", e);
+                }
+          
+              } catch (e) {
+                toast.error("Got some error", e)
+              }
+        }
 
+        fetchImage();
+
+    },[location.state.userData])
 
     return (
         <main className="mx-4 my-4 p-2 md:mx-8 lg:mx-16">
@@ -232,9 +290,10 @@ const SingleUser = () => {
                     <h2 className="text-xl dark:text-slate-300">Progress Pictures</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <img src="https://source.unsplash.com/random/400x600/?muscles,man" className="rounded-lg" alt="" />
-                    <img src="https://source.unsplash.com/random/400x600/?muscleman" className="rounded-lg" alt="" />
-                    <img src="https://source.unsplash.com/random/400x600/?muscles" className="rounded-lg" alt="" />
+
+                    {progressImage.map((value)=>{
+                        return <ImageComponent gifData={value.img.data.data}/> 
+                    })}
                 </div>
             </section>
 

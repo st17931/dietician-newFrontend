@@ -23,7 +23,7 @@ const UserProgress = () => {
         body: formData
       });
 
-      const resJson = res.json();
+      const resJson = await res.json();
 
       if (resJson.success) {
         toast.message("Successfully uploaded image");
