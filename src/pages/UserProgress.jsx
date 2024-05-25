@@ -16,9 +16,9 @@ const UserProgress = () => {
     try {
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
-      formData.append('email', decoded.email);
+      formData.append('email', JSON.stringify(decoded.email));
 
-      const res = await fetch("http://localhost:3000/users/uploadpic", {
+      const res = await fetch("http://localhost:3333/users/uploadpic", {
         method: "POST",
         body: formData
       });
