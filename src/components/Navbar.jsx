@@ -4,7 +4,6 @@ import logo from "../assets/giphy.gif";
 import { decodeJwt } from "../middelwares";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const token = localStorage.getItem("dietToken");
@@ -166,12 +165,6 @@ const Navbar = () => {
                             >
                               {(decoded.isUser) ? "Diets" : "AdminPanel"}
                             </Link>
-                            {(decoded.isUser) && <Link
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                              to={"/UserProgress"}
-                            >
-                              DailyProgress
-                            </Link>}
 
                             {(decoded.isUser) && <Link
                               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"

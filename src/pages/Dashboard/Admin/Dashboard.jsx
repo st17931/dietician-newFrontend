@@ -32,7 +32,7 @@ const Dashboard = () => {
       <header className="absolute w-full md:w-72 md:min-w-72 lg:relative">
         <Sidebar />
       </header>
-      <main className="container h-full min-h-screen bg-slate-50 px-2">
+      <main className="container h-full min-h-screen bg-slate-900 px-2">
         <button
           className="m-2 rounded-md p-2 shadow lg:hidden"
           type="button"

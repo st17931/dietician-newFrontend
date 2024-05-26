@@ -20,8 +20,6 @@ import Protectedroutes from "./components/Protectedroutes.jsx";
 
 const App = () => {
 
-  // const isAdmin = useSelector((state)=> state.loginDetail.isAdmin)
-
   return (
     <>
       <Router>
@@ -29,24 +27,22 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/signup" element={<Signup />} />  
+          <Route path="/auth/signup" element={<Signup />} />
           <Route path="/UserDetailForm" element={<UserDetailForm />} />
-          
+
           <Route path="/super" element={<AdminPanel />} />
           <Route path="/super/ut" element={<UserTicket />} />
           <Route path="/dashboard/admin" element={<Protectedroutes><Dashboard /></Protectedroutes>} >
-            <Route index element={<Protectedroutes><AdminHome/></Protectedroutes>} />
-            <Route path="users" element={<Protectedroutes><Users/></Protectedroutes>}/>
-            <Route path="users/:id" element={<Protectedroutes><SingleUser/></Protectedroutes>} />
-            <Route path="requests" element={<Protectedroutes><Requests/></Protectedroutes>} />
+            <Route index element={<Protectedroutes><AdminHome /></Protectedroutes>} />
+            <Route path="users" element={<Protectedroutes><Users /></Protectedroutes>} />
+            <Route path="users/:id" element={<Protectedroutes><SingleUser /></Protectedroutes>} />
+            <Route path="requests" element={<Protectedroutes><Requests /></Protectedroutes>} />
           </Route>
 
-
-          
           <Route path="/UserProfile" element={<Protectedroutes><UserProfile /></Protectedroutes>} />
-          <Route path="/UserProgress" element={<Protectedroutes><UserProgress /></Protectedroutes>} />
+          
           <Route path="/fitness" element={<Protectedroutes><FitnessCoach /></Protectedroutes>} />
-          <Route path="/raiseRequest" element={<Protectedroutes><RaiseRequest/></Protectedroutes>}/>
+          <Route path="/raiseRequest" element={<Protectedroutes><RaiseRequest /></Protectedroutes>} />
 
         </Routes>
       </Router>
