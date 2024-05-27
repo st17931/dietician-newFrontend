@@ -97,7 +97,7 @@ const SingleUser = () => {
     useEffect(() => {
         const fetchMealData = async () => {
             console.log("Diet type in single user is", location.state.userData.dietType)
-            const response = await fetch(`https://dietician-backend-iryh.onrender.com/diet/getMeal?meal_type=${location.state.userData.dietType}`)
+            const response = await fetch(`http://localhost:3333/diet/getMeal?meal_type=${location.state.userData.dietType}`)
             const jsonResponse = await response.json();
             console.log("total meals are", jsonResponse);
             setTotalMeals(jsonResponse.data);

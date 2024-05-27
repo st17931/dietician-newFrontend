@@ -11,11 +11,34 @@ const UserProfile = () => {
             <h2 className="text-xl dark:text-slate-300">Profile</h2>
           </div>
           <div className="w-full ">
-            <img
-              src={IMAGES.image1}
-              className="mx-auto max-h-32 max-w-32 rounded-full"
-              alt=""
-            />
+            {/* <div className="relative">
+              <img
+                src={IMAGES.image1}
+                className="mx-auto max-h-32 max-w-32 rounded-full"
+                alt=""
+              />
+              <input
+                type="file"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              />
+            </div> */}
+            <div className="flex justify-center items-center">
+              <div className="relative">
+                <img
+                  src={IMAGES.image1}
+                  alt="Profile"
+                  className="w-32 h-32 rounded-full object-cover cursor-pointer"
+                  onClick={() => document.getElementById('fileInput').click()}
+                />
+                <input
+                  type="file"
+                  id="fileInput"
+                  className="hidden"
+                  accept="image/*"
+                  //onChange={handleImageUpload}
+                />
+              </div>
+            </div>
             <div className="mb-4 mt-8 flex flex-col gap-2 px-4 font-medium dark:text-slate-200">
               <span className="w-fit">Full Name</span>
               <span className="w-fit">Address@email.com</span>
