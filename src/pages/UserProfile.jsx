@@ -1,9 +1,33 @@
 import { Link } from "react-router-dom";
 import IMAGES from "../assets";
 import UserProgress from "./UserProgress";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
+//import { useEffect } from "react";
+//import { useState } from "react";
 
 const UserProfile = () => {
-  
+
+  const token = localStorage.getItem("dietToken");
+  const decode = jwtDecode(token);
+
+  const { firstName, lastName, email, phoneNumber, age, weight, height, gender, fitnessGoal, occupation, gymDaysPerWeek, } = decode.userData;
+
+  useEffect(()=> {
+    async function getProfileData() {
+      console.log("inside getprofiledata in userprofile", email)
+      const response = await fetch("http://localhost:3333/users/getProfilePic", {
+        method : "POST",
+        body : JSON.stringify({email: email})
+      });
+      
+      console.log("response", response); 
+      console.log("email", email);
+    }
+
+    getProfileData();
+  }, []);
+
   return (
     <div className="dark">
       <main className="relative flex w-full flex-col  gap-4 bg-gray-100 p-5 dark:bg-slate-900 lg:flex-row">
@@ -36,14 +60,14 @@ const UserProfile = () => {
                   id="fileInput"
                   className="hidden"
                   accept="image/*"
-                  //onChange={handleImageUpload}
+                //onChange={handleImageUpload}
                 />
               </div>
             </div>
             <div className="mb-4 mt-8 flex flex-col gap-2 px-4 font-medium dark:text-slate-200">
-              <span className="w-fit">Full Name</span>
-              <span className="w-fit">Address@email.com</span>
-              <span className="w-fit">+91 9876543210</span>
+              <span className="w-fit">{firstName} {lastName}</span>
+              <span className="w-fit">{email}</span>
+              <span className="w-fit">{phoneNumber}</span>
               <Link className="text-lime-500">Edit</Link>
             </div>
           </div>
@@ -59,35 +83,35 @@ const UserProfile = () => {
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Height
                 </h4>
-                <p>175 cm</p>
+                <p>{height} cm</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Weight
                 </h4>
-                <p>75 kg</p>
+                <p>{weight} kg</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">Age</h4>
-                <p>29</p>
+                <p>{age}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Gender
                 </h4>
-                <p>Male</p>
+                <p>{gender}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Fitness Goal
                 </h4>
-                <p>Lean Gain</p>
+                <p>{fitnessGoal}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Occupation
                 </h4>
-                <p>Pro. Chef</p>
+                <p>{occupation}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
@@ -105,7 +129,7 @@ const UserProfile = () => {
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   No. of days in week
                 </h4>
-                <p>6</p>
+                <p>{gymDaysPerWeek}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
