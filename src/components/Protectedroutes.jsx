@@ -23,13 +23,13 @@ export default function Protectedroutes({ children }) {
         if (!token) {
             navigate("/auth/login");
         } else if (currentPath === "dashboard") {
-            if (decoded?.isAdmin === true && decoded.isUser === false) {
+            if (decoded?.userData.isAdmin === true && decoded.userData.isUser === false) {
                 setIsAuthorized(true);
             } else {
                 navigate("/");
             }
         } else if (currentPath === "fitness" || currentPath === "UserProfile" || currentPath === "UserProgress" || currentPath === "raiseRequest") {
-            if (decoded?.isAdmin === false && decoded?.isUser === true) {
+            if (decoded?.userData.isAdmin === false && decoded?.userData.isUser === true) {
                 setIsAuthorized(true);
             } else {
                 navigate("/");
