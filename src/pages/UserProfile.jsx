@@ -3,6 +3,7 @@ import IMAGES from "../assets";
 import UserProgress from "./UserProgress";
 
 const UserProfile = () => {
+  
   return (
     <div className="dark">
       <main className="relative flex w-full flex-col  gap-4 bg-gray-100 p-5 dark:bg-slate-900 lg:flex-row">
