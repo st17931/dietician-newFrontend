@@ -1,32 +1,80 @@
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import IMAGES from "../assets";
 import UserProgress from "./UserProgress";
 import { jwtDecode } from "jwt-decode";
 import { useEffect } from "react";
 //import { useEffect } from "react";
-//import { useState } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
+
+  const [image, setImage] = useState("");
 
   const token = localStorage.getItem("dietToken");
   const decode = jwtDecode(token);
 
   const { firstName, lastName, email, phoneNumber, age, weight, height, gender, fitnessGoal, occupation, gymDaysPerWeek, } = decode.userData;
 
-  useEffect(()=> {
-    async function getProfileData() {
-      console.log("inside getprofiledata in userprofile", email)
-      const response = await fetch("http://localhost:3333/users/getProfilePic", {
-        method : "POST",
-        body : JSON.stringify({email: email})
-      });
-      
-      console.log("response", response); 
-      console.log("email", email);
-    }
+  async function getProfileData() {
+    console.log("inside getprofiledata in userprofile", email)
+    const response = await fetch("http://localhost:3333/users/getProfilePic", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    });
 
+    const jsonData = await response.json();
+
+    const gifData = jsonData?.data?.data?.data;
+    console.log("data", gifData);
+
+    const createBase64String = (gifData) => {
+      let binary = '';
+      const bytes = new Uint8Array(gifData);
+      const length = bytes.byteLength;
+
+      for (let i = 0; i < length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+
+      return btoa(binary);
+    };
+
+    const base64String = createBase64String(gifData);
+    console.log("base64String", base64String);
+    setImage(base64String);
+  }
+
+
+  useEffect(() => {
     getProfileData();
   }, []);
+
+  const handleImageUpload = async (e)=> {
+    console.log("eeeeeeeeee-------->>>", e)
+
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+    formData.append('email', JSON.stringify(decode.userData.email));
+
+    const response = await fetch("http://localhost:3333/users/addProfilePic", {
+      method : "POST",
+      body : formData
+    });
+
+    const jsonData = await response.json();
+    console.log("jsonData", jsonData);
+
+    if (jsonData.success) {
+      getProfileData();
+      toast.message("Successfully uploaded image");
+    } else {
+      toast.error("got some problem", e);
+    }
+  }
 
   return (
     <div className="dark">
@@ -36,23 +84,12 @@ const UserProfile = () => {
             <h2 className="text-xl dark:text-slate-300">Profile</h2>
           </div>
           <div className="w-full ">
-            {/* <div className="relative">
-              <img
-                src={IMAGES.image1}
-                className="mx-auto max-h-32 max-w-32 rounded-full"
-                alt=""
-              />
-              <input
-                type="file"
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              />
-            </div> */}
             <div className="flex justify-center items-center">
               <div className="relative">
                 <img
-                  src={IMAGES.image1}
-                  alt="Profile"
+                  src={`data:image/png;base64,${image}`}
                   className="w-32 h-32 rounded-full object-cover cursor-pointer"
+                  alt="GIF Image"
                   onClick={() => document.getElementById('fileInput').click()}
                 />
                 <input
@@ -60,7 +97,7 @@ const UserProfile = () => {
                   id="fileInput"
                   className="hidden"
                   accept="image/*"
-                //onChange={handleImageUpload}
+                  onChange={handleImageUpload}
                 />
               </div>
             </div>
