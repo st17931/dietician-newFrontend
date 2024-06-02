@@ -1,9 +1,81 @@
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import IMAGES from "../assets";
 import UserProgress from "./UserProgress";
+import { jwtDecode } from "jwt-decode";
+import { useEffect } from "react";
+//import { useEffect } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
-  
+
+  const [image, setImage] = useState("");
+
+  const token = localStorage.getItem("dietToken");
+  const decode = jwtDecode(token);
+
+  const { firstName, lastName, email, phoneNumber, age, weight, height, gender, fitnessGoal, occupation, gymDaysPerWeek, } = decode.userData;
+
+  async function getProfileData() {
+    console.log("inside getprofiledata in userprofile", email)
+    const response = await fetch("http://localhost:3333/users/getProfilePic", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email })
+    });
+
+    const jsonData = await response.json();
+
+    const gifData = jsonData?.data?.data?.data;
+    console.log("data", gifData);
+
+    const createBase64String = (gifData) => {
+      let binary = '';
+      const bytes = new Uint8Array(gifData);
+      const length = bytes.byteLength;
+
+      for (let i = 0; i < length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+
+      return btoa(binary);
+    };
+
+    const base64String = createBase64String(gifData);
+    console.log("base64String", base64String);
+    setImage(base64String);
+  }
+
+
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const handleImageUpload = async (e)=> {
+    console.log("eeeeeeeeee-------->>>", e)
+
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+    formData.append('email', JSON.stringify(decode.userData.email));
+
+    const response = await fetch("http://localhost:3333/users/addProfilePic", {
+      method : "POST",
+      body : formData
+    });
+
+    const jsonData = await response.json();
+    console.log("jsonData", jsonData);
+
+    if (jsonData.success) {
+      getProfileData();
+      toast.message("Successfully uploaded image");
+    } else {
+      toast.error("got some problem", e);
+    }
+  }
+
   return (
     <div className="dark">
       <main className="relative flex w-full flex-col  gap-4 bg-gray-100 p-5 dark:bg-slate-900 lg:flex-row">
@@ -12,23 +84,12 @@ const UserProfile = () => {
             <h2 className="text-xl dark:text-slate-300">Profile</h2>
           </div>
           <div className="w-full ">
-            {/* <div className="relative">
-              <img
-                src={IMAGES.image1}
-                className="mx-auto max-h-32 max-w-32 rounded-full"
-                alt=""
-              />
-              <input
-                type="file"
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              />
-            </div> */}
             <div className="flex justify-center items-center">
               <div className="relative">
                 <img
-                  src={IMAGES.image1}
-                  alt="Profile"
+                  src={`data:image/png;base64,${image}`}
                   className="w-32 h-32 rounded-full object-cover cursor-pointer"
+                  alt="GIF Image"
                   onClick={() => document.getElementById('fileInput').click()}
                 />
                 <input
@@ -36,14 +97,14 @@ const UserProfile = () => {
                   id="fileInput"
                   className="hidden"
                   accept="image/*"
-                  //onChange={handleImageUpload}
+                  onChange={handleImageUpload}
                 />
               </div>
             </div>
             <div className="mb-4 mt-8 flex flex-col gap-2 px-4 font-medium dark:text-slate-200">
-              <span className="w-fit">Full Name</span>
-              <span className="w-fit">Address@email.com</span>
-              <span className="w-fit">+91 9876543210</span>
+              <span className="w-fit">{firstName} {lastName}</span>
+              <span className="w-fit">{email}</span>
+              <span className="w-fit">{phoneNumber}</span>
               <Link className="text-lime-500">Edit</Link>
             </div>
           </div>
@@ -59,35 +120,35 @@ const UserProfile = () => {
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Height
                 </h4>
-                <p>175 cm</p>
+                <p>{height} cm</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Weight
                 </h4>
-                <p>75 kg</p>
+                <p>{weight} kg</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">Age</h4>
-                <p>29</p>
+                <p>{age}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Gender
                 </h4>
-                <p>Male</p>
+                <p>{gender}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Fitness Goal
                 </h4>
-                <p>Lean Gain</p>
+                <p>{fitnessGoal}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Occupation
                 </h4>
-                <p>Pro. Chef</p>
+                <p>{occupation}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
@@ -105,7 +166,7 @@ const UserProfile = () => {
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   No. of days in week
                 </h4>
-                <p>6</p>
+                <p>{gymDaysPerWeek}</p>
               </div>
               <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
