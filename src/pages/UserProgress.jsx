@@ -35,37 +35,37 @@ const UserProgress = () => {
 
   return (
     <>
-      <main className="w-full bg-gray-100 p-4 dark:bg-slate-900">
-        <h1 className="text-sky-500 text-3xl rounded-md text-center p-5 mb-4 bg-slate-950">User Progress</h1>
+      <main className="w-full bg-gray-200 p-4">
+        <h1 className="text-gray-600 text-3xl rounded-md text-center p-5 mb-4 bg-gray-300">User Progress</h1>
         <div className="flex flex-wrap">
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className="font-serif text-2xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded bg-gray-300 text-center shadow md:w-2/4">
+            <h2 className="font-serif text-2xl uppercase text-gray-500">
               BMI
             </h2>
-            <span className="text-5xl text-sky-500">19.9</span>
+            <span className="text-5xl text-gray-600">19.9</span>
             <p className="mt-4 text-xs dark:text-slate-300">Normal</p>
             {/* <p className="dark:text-slate-400 text-base"><strong>{"<"}16 :</strong> Severe Thinness</p> */}
             <div className="group relative mx-auto w-32 justify-center">
-              <span className="text- rounded font-bold text-sky-500 shadow-sm">
+              <span className="text- rounded font-bold text-gray-600 shadow-sm">
                 ⓘ
               </span>
-              <span className="absolute top-10 w-full scale-0 rounded bg-slate-900 p-2 px-4 text-left text-xs text-slate-400 shadow-lg transition-all group-hover:scale-100">
+              <span className="absolute top-10 w-full scale-0 rounded bg-gray-300 p-2 px-4 text-left text-xs text-gray-600 shadow-lg transition-all group-hover:scale-100">
                 Skinny: {"<18.5"} <br /> Normal: 18.5 - 25 <br /> Obese: {">25"}{" "}
               </span>
             </div>
           </div>
 
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className=" font-serif text-2xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded bg-gray-300 text-center shadow md:w-2/4">
+            <h2 className=" font-serif text-2xl uppercase text-gray-500">
               weight
             </h2>
-            <span className="text-5xl text-sky-500">Graph</span>
+            <span className="text-5xl text-gray-600">Graph</span>
             <p className="mt-4 text-xs dark:text-slate-300">here</p>
           </div>
 
 
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className=" mb-6 font-serif text-xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded text-center shadow bg-gray-300 md:w-2/4">
+            <h2 className=" mb-6 font-serif text-xl uppercase dark:text-gray-500">
               Update Weight
             </h2>
             <input
@@ -74,16 +74,16 @@ const UserProgress = () => {
               id="weight"
               placeholder=".kg"
               step={0.1}
-              className="w-1/4 rounded bg-gray-100 px-3 py-3 text-center text-xl dark:bg-slate-900 dark:text-slate-400"
+              className="w-1/4 rounded px-3 py-3 text-center text-xl bg-gray-200 text-gray-600"
             />
-            <button className="mx-auto mt-4 block rounded-full border border-sky-500 p-3 text-xs text-sky-500 dark:hover:bg-slate-900">
+            <button className="mx-auto mt-4 block rounded-full border border-gray-500 p-3 text-xs text-gray-600 hover:bg-gray-500 hover:text-gray-200">
               Click to Update
             </button>
           </div>
 
-          <div className="py-8 w-full rounded bg-white p-10 text-center shadow dark:bg-slate-950 md:w-2/4">
-            <label className="my-4 block cursor-pointer rounded-lg border-2 border-dashed border-sky-500 py-10">
-              <span className="mx-auto rounded-full bg-sky-500 px-4 py-1 text-center font-mono text-4xl font-bold  text-slate-900">
+          <div className="py-8 w-full rounded p-10 text-center shadow bg-gray-300 md:w-2/4">
+            <label className="my-4 block cursor-pointer rounded-lg border-2 border-dashed border-gray-600 py-10">
+              <span className="mx-auto rounded-full bg-gray-600 px-4 py-1 text-center font-mono text-4xl font-bold  text-gray-300">
                 +
               </span>
               <input

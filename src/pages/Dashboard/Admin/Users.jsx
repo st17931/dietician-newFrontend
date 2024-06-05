@@ -6,12 +6,12 @@ const Users = () => {
   const allUser = useSelector((state) => state.allUser.userArr || []);
   return (
     <main className="mt-[95%] mx-auto my-6 p-10 md:mt-[12%] lg:mt-0">
-      <h1 className="mb-8 text-3xl text-white">
-        <i className="ai ai-user-fill mr-3 text-2xl text-white"></i>
+      <h1 className="mb-8 text-3xl text-black">
+        <i className="ai ai-user-fill mr-3 text-2xl text-black"></i>
         Users
       </h1>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-slate-950 p-6 pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
+        <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-gray-200 p-6 pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
           <div>
             <button
               id="dropdownActionButton"
