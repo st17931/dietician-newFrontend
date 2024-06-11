@@ -1,19 +1,27 @@
 import { decodeJwt } from "../middelwares";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 const UserProgress = () => {
 
+
   const token = localStorage.getItem("dietToken");
   const decoded = token ? decodeJwt(token) : null;
+
+  const [weight, setWeight] = useState(decoded.userData.weight);
 
   console.log("decoded jwt in the userprogress component", decoded)
 
   async function handleUpload(e) {
     console.log("Inside handle upload file and value is", e);
+
+
     try {
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
-      formData.append('email', JSON.stringify(decoded.email));
+      formData.append('email', JSON.stringify(decoded.userData.email));
+      formData.append('weight', JSON.stringify(weight));
+
 
       const res = await fetch("http://localhost:3333/users/uploadpic", {
         method: "POST",
@@ -73,12 +81,14 @@ const UserProgress = () => {
               name="weight"
               id="weight"
               placeholder=".kg"
+              value={weight}
               step={0.1}
+              onChange={(e) => { setWeight(e.target.value) }}
               className="w-1/4 rounded px-3 py-3 text-center text-xl bg-gray-200 text-gray-600"
             />
-            <button className="mx-auto mt-4 block rounded-full border border-gray-500 p-3 text-xs text-gray-600 hover:bg-gray-500 hover:text-gray-200">
+            {/*<button className="mx-auto mt-4 block rounded-full border border-gray-500 p-3 text-xs text-gray-600 hover:bg-gray-500 hover:text-gray-200">
               Click to Update
-            </button>
+            </button>*/}
           </div>
 
           <div className="py-8 w-full rounded p-10 text-center shadow bg-gray-300 md:w-2/4">

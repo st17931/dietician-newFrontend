@@ -1,6 +1,3 @@
-
-
-
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { decodeJwt } from "../middelwares"; // Assuming 'middlewares' is correctly named
