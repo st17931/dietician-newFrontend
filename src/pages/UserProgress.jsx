@@ -1,9 +1,20 @@
 import { decodeJwt } from "../middelwares";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import BMI from './BMI.jsx';
+import axios from "axios";
 
 const UserProgress = () => {
 
+  // const bmiData = [
+  //   { date: '2024-01-01', height: 170 },
+  //   { date: '2024-02-01', height: 150},
+  //   { date: '2024-03-01', height: 160},
+  //   { date: '2024-04-01', height: 190},
+  //   { date: '2024-05-01', height: 140},
+  // ];
+
+  const [bmiData, setBmiData] = useState({});
 
   const token = localStorage.getItem("dietToken");
   const decoded = token ? decodeJwt(token) : null;
@@ -12,16 +23,33 @@ const UserProgress = () => {
 
   console.log("decoded jwt in the userprogress component", decoded)
 
+  async function getBMI() {
+    try {
+      const response = await axios.post("http://localhost:3333/users/getProgressWeight", {
+        email: "yogesh@gmail.com"
+      })
+  
+      const data = await response.data;
+      console.log("BMIIIII response Data", data);
+      setBmiData(data);      
+    }
+    catch(e) {
+      console.log(e.message);
+    }
+  }
+  console.log("BMIIIII Data", bmiData);
+  useEffect(()=> {
+    getBMI();
+  }, []);
+
   async function handleUpload(e) {
     console.log("Inside handle upload file and value is", e);
-
 
     try {
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
       formData.append('email', JSON.stringify(decoded.userData.email));
       formData.append('weight', JSON.stringify(weight));
-
 
       const res = await fetch("http://localhost:3333/users/uploadpic", {
         method: "POST",
@@ -106,6 +134,10 @@ const UserProgress = () => {
               Upload your progress picture
             </p>
           </div>
+        </div>
+
+        <div>
+          <BMI data={bmiData} />
         </div>
       </main>
     </>
