@@ -40,19 +40,13 @@ const SingleUser = () => {
 
     let location = useLocation();
     const [totalMeals, setTotalMeals] = useState([]);
-    const [recommendedMeal, setrecommendedMeal] = useState([]);
+    const [recommendedMeal, setrecommendedMeal] = useState({});
     const [progressImage, setProgressImages] = useState([]);
     const [profilePic, setProfilePic] = useState("");
     const [selectedButton, setSelectedButton] = useState(null);
     const [showOptions, setShowOptions] = useState(false);
-    const [showOptionData, setShowOptionData] = useState({})
+    const [showOptionData, setShowOptionData] = useState([])
 
-    console.log("location is", location)
-
-    console.log("total meal is", totalMeals);
-    console.log("Now updated recommended meal is", recommendedMeal);
-    //console.log("options are", options)
-    console.log("optionsdata are", showOptionData)
 
     async function handleRecommendedDiet() {
         const response = await fetch("https://dietician-backend-iryh.onrender.com/users/addUserDiet", {
@@ -73,54 +67,37 @@ const SingleUser = () => {
         }
     }
 
-    function addIngredients(mealIndex, newIngredientObject) {
-        console.log("addIngredients function is called and new recommendedMeal is", recommendedMeal);
-        let newArr = [...recommendedMeal];
-        newArr[mealIndex].ingredients.push(newIngredientObject);
-        setrecommendedMeal(newArr);
+    function addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,  newIngredientObject) {
+        
+        let newObj = {...recommendedMeal};
+        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.push(newIngredientObject)
+        setrecommendedMeal(newObj);
     }
 
-    function updateIngredientsData(mealIndex, ingredientIndex, newIngredientObject) {
-        let newArr = [...recommendedMeal];
-        newArr[mealIndex].ingredients[ingredientIndex] = newIngredientObject;
-        setrecommendedMeal(newArr);
-
+    function updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,ingredientIndex, newIngredientObject) {
+        let newObj = {...recommendedMeal};
+        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients[ingredientIndex] = newIngredientObject;
+        setrecommendedMeal(newObj);
     }
 
 
-    //const [selectedOption, setSelectedOption] = useState('');
+    
 
     const handleSelectChange = (e) => {
-        console.log(e.target.value);
         const selectedMeal = totalMeals.filter((meal) => meal.categoryName === e.target.value)
-
         setrecommendedMeal(selectedMeal[0]);
-        let options = Object.keys(selectedMeal[0]).filter((value) => {
-            if (value == "categoryName" || value == "_id" || value == "__v") {
-                return false
+        let options = Object.keys(selectedMeal[0]);
+        let optionsData = options.filter((value) => {
+            if (value == "_id" || value == "categoryName" || value == "_v") {
+                return false;
             }
-            return true
-        }
-        )
-        let optionsData = options.reduce((acc, value) => {
-            acc[value] = false;
-            return acc;
-        }, {})
-        //setOptions(options)
+            return true;
+        })
         setShowOptions(true)
         setShowOptionData(optionsData);
-        console.log("recommended inside handleSelectChange", recommendedMeal);
     };
 
     const handleOptionChange = (e) => {
-        let newObj = { ...showOptionData };
-        for (let x in newObj) {
-            if (x == e.target.name) {
-                newObj[x] = false
-            }
-            newObj[x] = true;
-        }
-        setShowOptionData(newObj);
         setSelectedButton(e.target.name);
     }
 
@@ -129,10 +106,8 @@ const SingleUser = () => {
 
     useEffect(() => {
         const fetchMealData = async () => {
-            console.log("Diet type in single user is", location.state.userData.dietType)
             const response = await fetch(`http://localhost:3333/diet/getMeal`)
             const jsonResponse = await response.json();
-            console.log("total data are", jsonResponse);
             setTotalMeals(jsonResponse.data);
         }
         fetchMealData();
@@ -147,7 +122,7 @@ const SingleUser = () => {
                 });
 
                 const resJson = await res.json();
-                console.log("Res.json in the single user is", resJson);
+                //console.log("Res.json in the single user is", resJson);
 
                 if (resJson.success) {
                     setProgressImages(resJson.data);
@@ -348,10 +323,9 @@ const SingleUser = () => {
 
 
 
-                {/* {recommendedMeal.map((meal, index) => (<Meal ingredients={meal.ingredients} addIngredients={addIngredients} index={index} updateIngredientsData={updateIngredientsData} />))} */}
 
                 <div className='flex flex-row'>
-                    {showOptions && Object.keys(showOptionData).map((value) => (
+                    {showOptions && showOptionData.map((value) => (
                         <button
                             className={`bg-green-600 text-white rounded p-0.5 px-2 ${(value === selectedButton) ? 'border-solid border-4 border-indigo-600' : ''}`}
                             name={value}
@@ -364,39 +338,56 @@ const SingleUser = () => {
 
 
 
-                {showOptionData.nutritionData && Object.keys(recommendedMeal.nutritionData.nutrition_meals).map((value) => {
 
-                    if (value == "instructions") {
-                        return <div>
-                            <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
-                                {value.toUpperCase()}
-                                </h1>
-                            <ul>
-                                {
 
-                                    recommendedMeal.nutritionData.nutrition_meals[value].map((value) => {
+                {selectedButton && Object.keys(recommendedMeal[selectedButton]).map((value1) => (
+                    <div key={value1}>
+                        <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                            {value1.toUpperCase()}
+                        </h1>
+                        {Object.keys(recommendedMeal[selectedButton][value1]).map((value2) => {
+                            if (value2 === "instructions") {
+                                return (
+                                    <div key={value2}>
+                                        <h2 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                                            {value2.toUpperCase()}
+                                        </h2>
+                                        <ul>
+                                            {recommendedMeal[selectedButton][value1][value2].map((value3, index) => (
+                                                <li key={index}>{value3}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                );
+                            } else {
+                                return (
+                                    <div key={value2}>
+                                        <h2 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                                            {value2.toUpperCase()}
+                                        </h2>
+                                        {recommendedMeal[selectedButton][value1][value2].map((value3, index) => (
+                                            <Meal
+                                                key={index}
+                                                ingredients={value3.ingredients}
+                                                name={value3.name}
+                                                index={index}
+                                                total={value3.total}
+                                                note={value3.note}
+                                                addIngredients={addIngredients}
+                                                firstDataObject={selectedButton}
+                                                secondDataObject={value1}
+                                                thirdDataObject={value2}
+                                                fourthIndexNumber={index}
 
-                                        return <li>{value}</li>
-                                    })
-                                }
-                            </ul>
-                        </div>
-                    } else {
-
-                        return <div>
-                            <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
-                                {value.toUpperCase()}
-                                </h1>
-                            {
-
-                                recommendedMeal.nutritionData.nutrition_meals[value].map((value, index) => {
-
-                                    return <Meal ingredients={value.ingredients} name={value.name} index={index}/>
-                                })
+                                            />
+                                        ))}
+                                    </div>
+                                );
                             }
-                        </div>
-                    }
-                })}
+                        })}
+                    </div>
+                ))}
+
 
 
                 <div className="sm:w-64">

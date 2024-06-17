@@ -2,15 +2,13 @@ import MealIngredientRow from "./MealIngredientRow";
 import { useState } from "react";
 
 
-const Meal = ({ ingredients, name, index, addIngredients, updateIngredientsData }) => {
+const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
-    // console.log("ingredientsState is",ingredientsState)
+   
 
     function handleAddMore() {
-        console.log("HandleAddMore is running")
-        //setIngredientsState([...ingredientsState, {}])
-        addIngredients(index, {
+        addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, {
             ingredient_name: "",
             protein: 0,
             fat: 0,
@@ -51,8 +49,7 @@ const Meal = ({ ingredients, name, index, addIngredients, updateIngredientsData 
                 </thead>
                 <tbody>
 
-                    {/* <MealIngredientRow/>
-                            <MealIngredientRow/> */}
+                    
 
                     {ingredients.map((ingredient, ingedientIndex) => <MealIngredientRow ingredient={ingredient} mealIndex={index} ingredientArrIndex={ingedientIndex} updateIngredientsData={updateIngredientsData} />)}
 
@@ -68,7 +65,7 @@ const Meal = ({ ingredients, name, index, addIngredients, updateIngredientsData 
                     </tr>
 
                 </tbody>
-                {/* <tfoot>
+               <tfoot>
                     <tr className="bg-white border-b hover:bg-gray-50  ">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
                             <input disabled
@@ -78,32 +75,34 @@ const Meal = ({ ingredients, name, index, addIngredients, updateIngredientsData 
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={16.5}
+                                value={total.protein}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={12.7}
+                                value={total.fat}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={18.7}
+                                value={total.carbs}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={247}
+                                value={total.calories}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
 
                     </tr>
-                </tfoot> */}
+                </tfoot> 
+                <p>{note}</p>
             </table>
+            
         </div>
     )
 }
