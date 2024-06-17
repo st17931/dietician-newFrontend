@@ -20,7 +20,7 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
         <tr className="bg-white border-b hover:bg-gray-50  ">
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
                 <input
-                    value={ingredientState.ingredient_name || ""}
+                    value={ingredientState.item || ""}
                     className="outline-none p-1 w-auto"
                     type="text" name="ingredient_name" id=""
                     placeholder="Enter Ingredients name"

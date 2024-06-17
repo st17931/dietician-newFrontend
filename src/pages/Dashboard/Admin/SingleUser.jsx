@@ -1,67 +1,74 @@
-import {useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
 import Meal from './Meal';
+import getProfilePic from '../../../sideEffects/getProfilePic';
 
 
 const ImageComponent = ({ gifData }) => {
     // Assuming gifData is the base64 encoded GIF image data
-    
+
     const createBase64String = (gifData) => {
         let binary = '';
         const bytes = new Uint8Array(gifData);
         const length = bytes.byteLength;
-      
+
         for (let i = 0; i < length; i++) {
-          binary += String.fromCharCode(bytes[i]);
+            binary += String.fromCharCode(bytes[i]);
         }
-      
+
         return btoa(binary);
-      };
-      const base64String = createBase64String(gifData);
-  
+    };
+    const base64String = createBase64String(gifData);
+
     return (
-      <div>
-        {gifData && (
-          <img
-            src={`data:image/png;base64,${base64String}`}
-            className="rounded-lg object-cover h-full"
-            alt="GIF Image"
-          />
-        )}
-      </div>
+        <div>
+            {gifData && (
+                <img
+                    src={`data:image/png;base64,${base64String}`}
+                    className="rounded-lg object-cover h-full"
+                    alt="GIF Image"
+                />
+            )}
+        </div>
     );
-  };
+};
 
 
 const SingleUser = () => {
-    
+
 
     let location = useLocation();
     const [totalMeals, setTotalMeals] = useState([]);
     const [recommendedMeal, setrecommendedMeal] = useState([]);
     const [progressImage, setProgressImages] = useState([]);
+    const [profilePic, setProfilePic] = useState("");
+    const [selectedButton, setSelectedButton] = useState(null);
+    const [showOptions, setShowOptions] = useState(false);
+    const [showOptionData, setShowOptionData] = useState({})
 
-    console.log("location is",location)
+    console.log("location is", location)
 
     console.log("total meal is", totalMeals);
     console.log("Now updated recommended meal is", recommendedMeal);
+    //console.log("options are", options)
+    console.log("optionsdata are", showOptionData)
 
-    async function handleRecommendedDiet(){
-        const response = await fetch("https://dietician-backend-iryh.onrender.com/users/addUserDiet",{
-          method:"POST",
-          headers:{
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email:location.state.userData.email,
-            diet:recommendedMeal
-          }) 
+    async function handleRecommendedDiet() {
+        const response = await fetch("https://dietician-backend-iryh.onrender.com/users/addUserDiet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email: location.state.userData.email,
+                diet: recommendedMeal
+            })
         })
         const jsonResponse = await response.json();
-        if(jsonResponse.success){
+        if (jsonResponse.success) {
             toast.success(jsonResponse.message);
-        }else{
+        } else {
             toast.error("Got some error");
         }
     }
@@ -85,11 +92,37 @@ const SingleUser = () => {
 
     const handleSelectChange = (e) => {
         console.log(e.target.value);
-        const selectedMeal = totalMeals.filter((meal) => meal.meal_name === e.target.value)
+        const selectedMeal = totalMeals.filter((meal) => meal.categoryName === e.target.value)
 
-        setrecommendedMeal(recommendedMeal.concat(selectedMeal));
-        console.log("recommended meals are", recommendedMeal);
+        setrecommendedMeal(selectedMeal[0]);
+        let options = Object.keys(selectedMeal[0]).filter((value) => {
+            if (value == "categoryName" || value == "_id" || value == "__v") {
+                return false
+            }
+            return true
+        }
+        )
+        let optionsData = options.reduce((acc, value) => {
+            acc[value] = false;
+            return acc;
+        }, {})
+        //setOptions(options)
+        setShowOptions(true)
+        setShowOptionData(optionsData);
+        console.log("recommended inside handleSelectChange", recommendedMeal);
     };
+
+    const handleOptionChange = (e) => {
+        let newObj = { ...showOptionData };
+        for (let x in newObj) {
+            if (x == e.target.name) {
+                newObj[x] = false
+            }
+            newObj[x] = true;
+        }
+        setShowOptionData(newObj);
+        setSelectedButton(e.target.name);
+    }
 
     const height = location.state.userData.height / 100
     const bmi = Math.round(location.state.userData.weight / (height * height))
@@ -97,45 +130,53 @@ const SingleUser = () => {
     useEffect(() => {
         const fetchMealData = async () => {
             console.log("Diet type in single user is", location.state.userData.dietType)
-            const response = await fetch(`http://localhost:3333/diet/getMeal?meal_type=${location.state.userData.dietType}`)
+            const response = await fetch(`http://localhost:3333/diet/getMeal`)
             const jsonResponse = await response.json();
-            console.log("total meals are", jsonResponse);
+            console.log("total data are", jsonResponse);
             setTotalMeals(jsonResponse.data);
         }
         fetchMealData();
     }, [location.state.userData])
 
-    useEffect(()=>{
-        async function fetchImage(){
+    useEffect(() => {
+        async function fetchImage() {
             try {
                 const res = await fetch("http://localhost:3333/users/getUsersPic", {
-                  method: "POST",
-                  body: JSON.stringify({email: location.state.userData.email})
+                    method: "POST",
+                    body: JSON.stringify({ email: location.state.userData.email })
                 });
-          
+
                 const resJson = await res.json();
                 console.log("Res.json in the single user is", resJson);
-          
+
                 if (resJson.success) {
-                  setProgressImages(resJson.data);
-                  
+                    setProgressImages(resJson.data);
+
                 } else {
-                  toast.error("got some problem", e);
+                    toast.error("got some problem", e);
                 }
-          
-              } catch (e) {
+
+            } catch (e) {
                 toast.error("Got some error", e)
-              }
+            }
         }
 
         fetchImage();
 
-    },[location.state.userData])
+    }, [location.state.userData])
+
+    useEffect(() => {
+        async function setingProfilePic() {
+            const profilePic = await getProfilePic(location.state.userData.email);
+            setProfilePic(profilePic);
+        }
+        setingProfilePic();
+    }, [location.state.userData]);
 
     return (
         <main className="mx-4 my-4 p-2 md:mx-8 lg:mx-16">
             <section className="w-full rounded-lg bg-white p-8 mb-10 shadow-lg ">
-                <div className="flex md:justify-end flex-wrap gap-y-4 mb-8">
+                {/* <div className="flex md:justify-end flex-wrap gap-y-4 mb-8">
                     <button type="button"
                         className="flex items-center px-4 py-1 mx-2  rounded border text-rose-600 border-rose-600"
                         onClick={() => { }}>
@@ -148,13 +189,13 @@ const SingleUser = () => {
                         <i className="ai ai-bell-fill  text-2xl mr-2"></i>
                         Send Notification
                     </button>
-                </div>
+                </div> */}
                 <div className="mb-8">
                     <h2 className="text-xl dark:text-slate-300">Profile</h2>
                 </div>
                 <div className="flex flex-wrap justify-center">
                     <img
-                        src="https://source.unsplash.com/random/?man,face,dp"
+                        src={`data:image/png;base64,${profilePic}`}
                         className="h-28 w-28 rounded-full object-cover my-auto"
                         alt=""
                     />
@@ -291,8 +332,8 @@ const SingleUser = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                    {progressImage.map((value)=>{
-                        return <ImageComponent gifData={value.img.data.data}/> 
+                    {progressImage.map((value) => {
+                        return <ImageComponent gifData={value.img.data.data} />
                     })}
                 </div>
             </section>
@@ -303,480 +344,59 @@ const SingleUser = () => {
                 </div>
 
 
-                {/* <div className="relative overflow-x-auto sm:rounded-lg mb-10">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500  ">
-                        <caption>
-                            <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">Meal 1</h3>
-                        </caption>
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50    ">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Ingredients
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Protein
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Fat
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Carbs
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Calories
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Banana 1/2 or Handful of Berries"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={0}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={13}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={60}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600 hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500 hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b  hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                    <input disabled
-                                        value={"Whey Protein 1/2 Scoop"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={12}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={0.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.2}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={60}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Almonds 10gm"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={2}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={3}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={62}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Walnuts 10gm"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={65}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="pt-2">
-                                    <button className="bg-green-600 text-white rounded p-0.5 px-2 m-2">
-                                        <i className="ai ai-plus-bold  text-xs"></i> Add More
-                                    </button>
-                                </td>
-                            </tr>
 
-                        </tbody>
-                        <tfoot>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Total"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={16.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={12.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={18.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={247}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
 
-                            </tr>
-                        </tfoot>
-                    </table>
+
+
+                {/* {recommendedMeal.map((meal, index) => (<Meal ingredients={meal.ingredients} addIngredients={addIngredients} index={index} updateIngredientsData={updateIngredientsData} />))} */}
+
+                <div className='flex flex-row'>
+                    {showOptions && Object.keys(showOptionData).map((value) => (
+                        <button
+                            className={`bg-green-600 text-white rounded p-0.5 px-2 ${(value === selectedButton) ? 'border-solid border-4 border-indigo-600' : ''}`}
+                            name={value}
+                            onClick={handleOptionChange}
+                        >
+                            {value}
+                        </button>
+                    ))}
                 </div>
 
-                <div className="relative overflow-x-auto sm:rounded-lg">
-                    <table className="w-full text-sm text-left rtl:text-right text-gray-500  ">
-                        <caption>
-                            <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">Meal 2</h3>
-                        </caption>
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50    ">
-                            <tr>
-                                <th scope="col" className="px-6 py-3">
-                                    Ingredients
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Protein
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Fat
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Carbs
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Calories
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Banana 1/2 or Handful of Berries"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={0}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={13}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={60}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600 hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500 hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b  hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                    <input disabled
-                                        value={"Whey Protein 1/2 Scoop"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={12}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={0.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.2}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={60}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Almonds 10gm"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={2}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={3}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={62}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Walnuts 10gm"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={1.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4">
-                                    <input disabled
-                                        value={65}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <a href="#" className="font-medium text-blue-600   hover:underline">
-                                        <i className="ai ai-note-pencil mx-1"></i>
-                                    </a>
-                                    <a href="#" className="font-medium text-rose-500   hover:underline">
-                                        <i className="ai ai-trash-fill mx-1"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="pt-2">
-                                    <button className="bg-green-600 text-white rounded p-0.5 px-2 m-2">
-                                        <i className="ai ai-plus-bold  text-xs"></i> Add More
-                                    </button>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                        <tfoot>
-                            <tr className="bg-white border-b     hover:bg-gray-50  ">
-                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
-                                    <input disabled
-                                        value={"Total"}
-                                        className="outline-none p-1 w-auto"
-                                        type="text" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={16.5}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={12.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={18.7}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-                                <th className="px-6 py-4">
-                                    <input disabled
-                                        value={247}
-                                        className="outline-none p-1 w-full"
-                                        type="number" name="" id="" />
-                                </th>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div> */}
 
 
+                {showOptionData.nutritionData && Object.keys(recommendedMeal.nutritionData.nutrition_meals).map((value) => {
 
-                {recommendedMeal.map((meal, index) => (<Meal ingredients={meal.ingredients} addIngredients={addIngredients} index={index} updateIngredientsData={updateIngredientsData} />))}
-                
+                    if (value == "instructions") {
+                        return <div>
+                            <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                                {value.toUpperCase()}
+                                </h1>
+                            <ul>
+                                {
+
+                                    recommendedMeal.nutritionData.nutrition_meals[value].map((value) => {
+
+                                        return <li>{value}</li>
+                                    })
+                                }
+                            </ul>
+                        </div>
+                    } else {
+
+                        return <div>
+                            <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                                {value.toUpperCase()}
+                                </h1>
+                            {
+
+                                recommendedMeal.nutritionData.nutrition_meals[value].map((value, index) => {
+
+                                    return <Meal ingredients={value.ingredients} name={value.name} index={index}/>
+                                })
+                            }
+                        </div>
+                    }
+                })}
 
 
                 <div className="sm:w-64">
@@ -792,18 +412,18 @@ const SingleUser = () => {
                     >
                         <option value="" default>Select the diet from below</option>
                         {
-                            totalMeals.map((meal) => <option value={meal.meal_name}>{meal.meal_name}</option>)
+                            totalMeals.map((meal) => <option value={meal.categoryName}>{meal.categoryName}</option>)
                         }
                     </select>
 
                 </div>
 
-                {(recommendedMeal.length>0)?<button
+                {(recommendedMeal.length > 0) ? <button
                     className="bg-green-600 text-white rounded p-0.5 px-2 m-2"
                     onClick={handleRecommendedDiet}
-                >   
+                >
                     Recommend Diet
-                </button>: null}
+                </button> : null}
 
             </section>
 

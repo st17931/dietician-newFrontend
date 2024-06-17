@@ -53,7 +53,9 @@ const Requests = () => {
         Requests
       </h1>
       <section className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-        {allRequests.map((value, index) => (
+        
+        {
+        (allRequests.length == 0) ? <div className="text-white">You have no request right now...!!!</div> : allRequests.map((value, index) => (
           <div className="relative rounded-lg bg-white px-8 py-8 shadow-md" key={index}>
             <div className="flex flex-col flex-wrap">
               <div className="my-auto -mt-4">

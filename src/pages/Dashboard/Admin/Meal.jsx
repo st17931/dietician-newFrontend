@@ -2,7 +2,7 @@ import MealIngredientRow from "./MealIngredientRow";
 import { useState } from "react";
 
 
-const Meal = ({ ingredients, index, addIngredients, updateIngredientsData }) => {
+const Meal = ({ ingredients, name, index, addIngredients, updateIngredientsData }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
     // console.log("ingredientsState is",ingredientsState)
@@ -24,7 +24,8 @@ const Meal = ({ ingredients, index, addIngredients, updateIngredientsData }) => 
         <div className="relative overflow-x-auto sm:rounded-lg mb-10">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500  ">
                 <caption>
-                    <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">Meal 1</h3>
+                    <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">{`Meal ${index+1}`}</h3>
+                    <h6 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">{name}</h6>
                 </caption>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -67,7 +68,7 @@ const Meal = ({ ingredients, index, addIngredients, updateIngredientsData }) => 
                     </tr>
 
                 </tbody>
-                <tfoot>
+                {/* <tfoot>
                     <tr className="bg-white border-b hover:bg-gray-50  ">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
                             <input disabled
@@ -101,7 +102,7 @@ const Meal = ({ ingredients, index, addIngredients, updateIngredientsData }) => 
                         </th>
 
                     </tr>
-                </tfoot>
+                </tfoot> */}
             </table>
         </div>
     )

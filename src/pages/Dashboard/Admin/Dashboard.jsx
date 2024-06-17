@@ -10,7 +10,7 @@ const Dashboard = () => {
   useEffect(()=>{
     async function fetchdata(){
       console.log("data fetching in the dashboard starts...!!")
-      const data = await fetch("https://dietician-backend-iryh.onrender.com/users/allUser");
+      const data = await fetch("http://localhost:3333/users/allUser");
       const resData = await data.json();
       console.log("response received", resData);
       dispatch(setUserDetails(resData.data))

@@ -13,7 +13,7 @@ const Users = () => {
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex-column flex flex-wrap items-center justify-between space-y-4 bg-slate-950 p-6 pb-4 dark:bg-gray-900 md:flex-row md:space-y-0">
           <div>
-            <button
+            {/* <button
               id="dropdownActionButton"
               data-dropdown-toggle="dropdownAction"
               className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
@@ -36,7 +36,7 @@ const Users = () => {
                   d="m1 1 4 4 4-4"
                 />
               </svg>
-            </button>
+            </button> */}
             {/* Dropdown menu  */}
             <div
               id="dropdownAction"
@@ -113,7 +113,7 @@ const Users = () => {
         <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
           <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="p-4">
+              {/* <th scope="col" className="p-4">
                 <div className="flex items-center">
                   <input
                     id="checkbox-all-search"
@@ -124,7 +124,7 @@ const Users = () => {
                     checkbox
                   </label>
                 </div>
-              </th>
+              </th> */}
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
@@ -144,7 +144,7 @@ const Users = () => {
 
             {allUser.map((user) => (
               <tr className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600">
-                <td className="w-4 p-4">
+                {/* <td className="w-4 p-4">
                   <div className="flex items-center">
                     <input
                       id="checkbox-table-search-1"
@@ -155,7 +155,7 @@ const Users = () => {
                       checkbox
                     </label>
                   </div>
-                </td>
+                </td>  */}
                 <th
                   scope="row"
                   className="flex items-center whitespace-nowrap px-6 py-4 text-gray-900 dark:text-white"
@@ -181,7 +181,7 @@ const Users = () => {
                 </td>
                 <td className="px-6 py-4">
                   <Link
-                    to="123"
+                    to="detail"
                     className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                     state={{ userData : user }}
                   >
