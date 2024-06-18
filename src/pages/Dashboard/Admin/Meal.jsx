@@ -2,7 +2,7 @@ import MealIngredientRow from "./MealIngredientRow";
 import { useState } from "react";
 
 
-const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData }) => {
+const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
    
@@ -51,7 +51,19 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
 
                     
 
-                    {ingredients.map((ingredient, ingedientIndex) => <MealIngredientRow ingredient={ingredient} mealIndex={index} ingredientArrIndex={ingedientIndex} updateIngredientsData={updateIngredientsData} />)}
+                    {ingredients.map((ingredient, ingedientIndex) => 
+                    <MealIngredientRow 
+                    ingredient={ingredient} 
+                    mealIndex={index} 
+                    ingredientArrIndex={ingedientIndex} 
+                    updateIngredientsData={updateIngredientsData} 
+                    firstDataObject={firstDataObject}
+                    secondDataObject={secondDataObject}
+                    thirdDataObject={thirdDataObject}
+                    fourthIndexNumber={fourthIndexNumber}
+                    deleteIngredientData={deleteIngredientData}
+                    />)
+                    }
 
                     <tr>
                         <td className="pt-2">

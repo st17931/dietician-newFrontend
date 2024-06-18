@@ -49,7 +49,8 @@ const SingleUser = () => {
 
 
     async function handleRecommendedDiet() {
-        const response = await fetch("https://dietician-backend-iryh.onrender.com/users/addUserDiet", {
+        console.log("meals recommended is", recommendedMeal);
+        const response = await fetch("http://localhost:3333/users/addUserDiet", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -77,6 +78,17 @@ const SingleUser = () => {
     function updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,ingredientIndex, newIngredientObject) {
         let newObj = {...recommendedMeal};
         newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients[ingredientIndex] = newIngredientObject;
+        setrecommendedMeal(newObj);
+    }
+
+    function deleteIngredientData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,ingredientIndex){
+        let newObj = {...recommendedMeal};
+        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients = newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.filter((value, index)=>{
+            if(index === ingredientIndex){
+                return false;
+            }
+            return true;
+        })
         setrecommendedMeal(newObj);
     }
 
@@ -342,7 +354,7 @@ const SingleUser = () => {
 
                 {selectedButton && Object.keys(recommendedMeal[selectedButton]).map((value1) => (
                     <div key={value1}>
-                        <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
+                        <h1 className="mb-4 text-lg text-emerald-600 dark:text-slate-300 text-center">
                             {value1.toUpperCase()}
                         </h1>
                         {Object.keys(recommendedMeal[selectedButton][value1]).map((value2) => {
@@ -378,7 +390,8 @@ const SingleUser = () => {
                                                 secondDataObject={value1}
                                                 thirdDataObject={value2}
                                                 fourthIndexNumber={index}
-
+                                                updateIngredientsData={updateIngredientsData}
+                                                deleteIngredientData = {deleteIngredientData}
                                             />
                                         ))}
                                     </div>
@@ -409,7 +422,7 @@ const SingleUser = () => {
 
                 </div>
 
-                {(recommendedMeal.length > 0) ? <button
+                {(Object.keys(recommendedMeal).length > 0) ? <button
                     className="bg-green-600 text-white rounded p-0.5 px-2 m-2"
                     onClick={handleRecommendedDiet}
                 >

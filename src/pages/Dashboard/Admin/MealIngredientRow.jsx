@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrIndex, mealIndex }) => {
+const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrIndex, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, deleteIngredientData}) => {
     
 
     const [ingredientState, setIngredientState] = useState(ingredient);
@@ -9,13 +9,19 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
 
     function handleOnChange(e){
         setShowSaveButton(true);
-        setIngredientState({...ingredientState, [e.target.name]: e.target.value});
+        setIngredientState({...ingredientState, [e.target.name]: Number(e.target.value)});
     }
 
     function handleSaveChanges(){
-        updateIngredientsData(mealIndex, ingredientArrIndex, ingredientState);
+        updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientArrIndex, ingredientState);
+        console.log("Inside handlesave changes")
         setShowSaveButton(false);
     }
+
+    function handleDelete(){
+        deleteIngredientData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientArrIndex);
+    }
+
     return (
         <tr className="bg-white border-b hover:bg-gray-50  ">
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
@@ -29,7 +35,7 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
             </th>
             <td className="px-6 py-4">
                 <input
-                    value={ingredientState.protein || ""}
+                    value={ingredientState.protein || 0}
                     className="outline-none p-1 w-full"
                     type="number" name="protein" id=""
                     placeholder="protein content"
@@ -38,7 +44,7 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
             </td>
             <td className="px-6 py-4">
                 <input
-                    value={ingredientState.fat || ""}
+                    value={ingredientState.fat || 0}
                     className="outline-none p-1 w-full"
                     type="number" name="fat" id=""
                     placeholder="fat content"
@@ -47,7 +53,7 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
             </td>
             <td className="px-6 py-4">
                 <input
-                    value={ingredientState.carbs || ""}
+                    value={ingredientState.carbs || 0}
                     className="outline-none p-1 w-full"
                     type="number" name="carbs" id=""
                     placeholder="carbs content"
@@ -56,7 +62,7 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
             </td>
             <td className="px-6 py-4">
                 <input
-                    value={ingredientState.calories || ""}
+                    value={ingredientState.calories || 0}
                     className="outline-none p-1 w-full"
                     type="number" name="calories" id=""
                     placeholder="calories content"
@@ -70,7 +76,10 @@ const MealIngredientRow = ({ ingredient, updateIngredientsData, ingredientArrInd
                 >
                     <i className="ai ai-note-pencil mx-1"></i>
                 </button>}
-                <button  className="font-medium text-rose-500 hover:underline">
+                <button 
+                className="font-medium text-rose-500 hover:underline"
+                onClick={handleDelete}
+                >
                     <i className="ai ai-trash-fill mx-1"></i>
                 </button>
             </td>
