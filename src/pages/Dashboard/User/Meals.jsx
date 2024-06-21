@@ -49,7 +49,7 @@ const Meals = () => {
             try{
             const decoded = decodeJwt(localStorage.getItem("dietToken"));
             console.log("decoded in meals", decoded);
-            const response = await fetch("https://dietician-backend-iryh.onrender.com/users/getUserDiet", {
+            const response = await fetch("http://localhost:3333/users/getUserDiet", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",

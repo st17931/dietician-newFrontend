@@ -36,6 +36,7 @@ const ImageComponent = ({ gifData }) => {
 
 
 const SingleUser = () => {
+    console.log("SingleUser component rendered");
 
 
     let location = useLocation();
@@ -92,6 +93,12 @@ const SingleUser = () => {
         setrecommendedMeal(newObj);
     }
 
+    function updateMealName(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newName){
+        let newObj = {...recommendedMeal};
+        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].name = newName;
+        setrecommendedMeal(newObj);
+
+    }
 
     
 
@@ -100,7 +107,7 @@ const SingleUser = () => {
         setrecommendedMeal(selectedMeal[0]);
         let options = Object.keys(selectedMeal[0]);
         let optionsData = options.filter((value) => {
-            if (value == "_id" || value == "categoryName" || value == "_v") {
+            if (value == "_id" || value == "categoryName" || value == "__v") {
                 return false;
             }
             return true;
@@ -392,6 +399,7 @@ const SingleUser = () => {
                                                 fourthIndexNumber={index}
                                                 updateIngredientsData={updateIngredientsData}
                                                 deleteIngredientData = {deleteIngredientData}
+                                                updateMealName = {updateMealName}
                                             />
                                         ))}
                                     </div>

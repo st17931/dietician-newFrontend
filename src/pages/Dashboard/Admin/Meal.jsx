@@ -1,11 +1,12 @@
 import MealIngredientRow from "./MealIngredientRow";
+import MealName from "./MealName";
 import { useState } from "react";
 
 
-const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData }) => {
+const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData,updateMealName }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
-   
+    console.log("Meal component rendered");
 
     function handleAddMore() {
         addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, {
@@ -22,8 +23,15 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
         <div className="relative overflow-x-auto sm:rounded-lg mb-10">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500  ">
                 <caption>
-                    <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">{`Meal ${index+1}`}</h3>
-                    <h6 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">{name}</h6>
+                    <h3 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">{`Meal ${index + 1}`}</h3>
+                    <MealName 
+                    name={name} 
+                    firstDataObject={firstDataObject} 
+                    secondDataObject={secondDataObject} 
+                    thirdDataObject={thirdDataObject} 
+                    fourthIndexNumber={fourthIndexNumber}
+                    updateMealName={updateMealName}
+                    />
                 </caption>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
@@ -49,20 +57,20 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
                 </thead>
                 <tbody>
 
-                    
 
-                    {ingredients.map((ingredient, ingedientIndex) => 
-                    <MealIngredientRow 
-                    ingredient={ingredient} 
-                    mealIndex={index} 
-                    ingredientArrIndex={ingedientIndex} 
-                    updateIngredientsData={updateIngredientsData} 
-                    firstDataObject={firstDataObject}
-                    secondDataObject={secondDataObject}
-                    thirdDataObject={thirdDataObject}
-                    fourthIndexNumber={fourthIndexNumber}
-                    deleteIngredientData={deleteIngredientData}
-                    />)
+
+                    {ingredients.map((ingredient, ingedientIndex) =>
+                        <MealIngredientRow
+                            ingredient={ingredient}
+                            mealIndex={index}
+                            ingredientArrIndex={ingedientIndex}
+                            updateIngredientsData={updateIngredientsData}
+                            firstDataObject={firstDataObject}
+                            secondDataObject={secondDataObject}
+                            thirdDataObject={thirdDataObject}
+                            fourthIndexNumber={fourthIndexNumber}
+                            deleteIngredientData={deleteIngredientData}
+                        />)
                     }
 
                     <tr>
@@ -77,7 +85,7 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
                     </tr>
 
                 </tbody>
-               <tfoot>
+                <tfoot>
                     <tr className="bg-white border-b hover:bg-gray-50  ">
                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap  ">
                             <input disabled
@@ -111,10 +119,10 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
                         </th>
 
                     </tr>
-                </tfoot> 
+                </tfoot>
                 <p>{note}</p>
             </table>
-            
+
         </div>
     )
 }
