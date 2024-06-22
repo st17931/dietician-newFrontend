@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { LiaWhatsapp } from "react-icons/lia";
+
 
 const Requests = () => {
   const [allRequests, setAllRequests] = useState([]);
@@ -28,6 +30,12 @@ const Requests = () => {
     }
   }
 
+  function openWhatsApp(phoneNumber){
+    const url = `https://wa.me/6387651169`;
+    // const url = `https://web.whatsapp.com/send?phone=6387651169`
+    window.open(url, '_blank');
+  }
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -53,27 +61,35 @@ const Requests = () => {
         Requests
       </h1>
       <section className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-        
+
         {
-        (allRequests.length == 0) ? <div className="text-white">You have no request right now...!!!</div> : allRequests.map((value, index) => (
-          <div className="relative rounded-lg bg-white px-8 py-8 shadow-md" key={index}>
-            <div className="flex flex-col flex-wrap">
-              <div className="my-auto -mt-4">
-                <i className="ai ai-carrot-fill absolute right-4 top-4 text-right text-xl text-orange-400"></i>
+          (allRequests.length == 0) ? <div className="text-white">You have no request right now...!!!</div> : allRequests.map((value, index) => (
+            <div className="relative rounded-lg bg-white px-8 py-8 shadow-md" key={index}>
+              <div className="flex flex-col flex-wrap">
+                <div className="my-auto -mt-4">
+                  <i className="ai ai-carrot-fill absolute right-4 top-4 text-right text-xl text-orange-400"></i>
+                </div>
+                <div className="my-4 mb-6">
+                  <h4 className="font-serif text-xl">{value.name}</h4>
+                  <p className="text-gray-700">{value.description}</p>
+                </div>
               </div>
-              <div className="my-4 mb-6">
-                <h4 className="font-serif text-xl">{value.name}</h4>
-                <p className="text-gray-700">{value.description}</p>
+
+              <div className="flex justify-between">
+                <button
+                  className="py-2 px-3 bg-blue-500 rounded-md text-white hover:border-b-4 hover:rounded-md hover:border-slate-300-400 hover:bg-red-600 dark:hover:bg-gray-300 dark:hover:text-slate-950"
+                  onClick={() => { handleDelete(index, value._id); }}
+                >
+                  Delete
+                </button>
+                <LiaWhatsapp
+                  style={{ color: 'green', fontSize: '50px' }} 
+                  onClick={openWhatsApp}
+                  />
+                  
               </div>
             </div>
-            <button
-              className="py-2 px-3 bg-blue-500 rounded-md text-white hover:border-b-4 hover:rounded-md hover:border-slate-300-400 hover:bg-red-600 dark:hover:bg-gray-300 dark:hover:text-slate-950"
-              onClick={() => { handleDelete(index, value._id); }}
-            >
-              Delete
-            </button>
-          </div>
-        ))}
+          ))}
       </section>
     </main>
   );
