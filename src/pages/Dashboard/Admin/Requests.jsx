@@ -56,8 +56,8 @@ const Requests = () => {
 
   return (
     <main className="mt-[95%] mx-8 my-4 p-2 lg:mx-16 md:mt-[12%] lg:mt-0">
-      <h1 className="my-4 mb-8 text-3xl text-white">
-        <i className="ai ai-hands-clapping-fill mr-3 text-2xl text-white"></i>
+      <h1 className="my-4 mb-8 text-3xl text-black">
+        <i className="ai ai-hands-clapping-fill mr-3 text-2xl text-black"></i>
         Requests
       </h1>
       <section className="mt-4 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">

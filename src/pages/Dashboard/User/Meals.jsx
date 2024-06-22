@@ -71,9 +71,9 @@ const Meals = () => {
     },[])
 
     return (
-        <section className='mx-auto my-10 p-10 rounded-lg shadow-md  dark:bg-slate-950 dark:text-slate-300'>
+        <section className='mx-auto my-10 p-10 rounded-lg shadow-md  dark:bg-gray-50 dark:text-slate-300'>
             <div className="lg:min-w-[36rem]">
-                <h1 className='text-center'>Title</h1>
+                <h1 className='text-center text-gray-600'>Title</h1>
                 <div className="flex flex-wrap">
                     <div className="my-8 ">
                         <ul className="mx-auto min-w-[12rem] md:min-w-[28rem] lg:min-w-[24rem] xl:min-w-[36rem] max-w-xl divide-y">
@@ -179,13 +179,13 @@ const Meals = () => {
                         </ul>
                     </div>
                     <div className="flex flex-col sm:flex-row lg:flex-col">
-                        <div className="lg:min-w-[12rem] w-full h-36 ml-4 my-4 p-4 rounded dark:bg-slate-900">Pie Chart</div>
-                        <div className="lg:min-w-[12rem] w-full h-36 ml-4 my-4 p-4 rounded dark:bg-slate-900">Macro Breakdown</div>
+                        <div className="lg:min-w-[12rem] w-full h-36 ml-4 my-4 p-4 rounded text-gray-600 dark:bg-gray-200">Pie Chart</div>
+                        <div className="lg:min-w-[12rem] w-full h-36 ml-4 my-4 p-4 rounded text-gray-600 dark:bg-gray-200">Macro Breakdown</div>
                     </div>
                 </div>
                 <aside className="px-8">
-                    <h3 className="text-lg">Instructions:</h3>
-                    <ol className="list-decimal my-4 text-slate-400 text-sm">
+                    <h3 className="text-lg text-gray-500">Instructions:</h3>
+                    <ol className="list-decimal my-4 text-gray-600 text-sm">
                         <li>Lorem ipsum dolor  officia nesciunt laudantium ipsum dolor  officia nesciunt laudantium</li>
                         <li>Lorem ipsum dolor  officia nesciunt laudantium ipsum dolor  officia nesciunt laudantium</li>
                         <li>Lorem ipsum dolor  officia nesciunt laudantium ipsum dolor  officia nesciunt laudantium</li>

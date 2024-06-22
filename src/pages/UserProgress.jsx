@@ -1,19 +1,55 @@
 import { decodeJwt } from "../middelwares";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import BMI from './BMI.jsx';
+import axios from "axios";
 
 const UserProgress = () => {
+
+  // const bmiData = [
+  //   { date: '2024-01-01', height: 170 },
+  //   { date: '2024-02-01', height: 150},
+  //   { date: '2024-03-01', height: 160},
+  //   { date: '2024-04-01', height: 190},
+  //   { date: '2024-05-01', height: 140},
+  // ];
+
+  const [bmiData, setBmiData] = useState({});
 
   const token = localStorage.getItem("dietToken");
   const decoded = token ? decodeJwt(token) : null;
 
+  const [weight, setWeight] = useState(decoded.userData.weight);
+
   console.log("decoded jwt in the userprogress component", decoded)
+
+  async function getBMI() {
+    try {
+      const response = await axios.post("http://localhost:3333/users/getProgressWeight", {
+        email: "yogesh@gmail.com"
+      })
+  
+      const data = await response.data;
+      console.log("BMIIIII response Data", data);
+      setBmiData(data);      
+    }
+    catch(e) {
+      console.log(e.message);
+    }
+  }
+  console.log("BMIIIII Data", bmiData);
+  useEffect(()=> {
+    getBMI();
+  }, []);
 
   async function handleUpload(e) {
     console.log("Inside handle upload file and value is", e);
+
     try {
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
-      formData.append('email', JSON.stringify(decoded.email));
+      formData.append('email', JSON.stringify(decoded.userData.email));
+      formData.append('weight', JSON.stringify(weight));
 
       const res = await fetch("http://localhost:3333/users/uploadpic", {
         method: "POST",
@@ -35,37 +71,37 @@ const UserProgress = () => {
 
   return (
     <>
-      <main className="w-full bg-gray-100 p-4 dark:bg-slate-900">
-        <h1 className="text-sky-500 text-3xl rounded-md text-center p-5 mb-4 bg-slate-950">User Progress</h1>
+      <main className="w-full bg-gray-200 p-4">
+        <h1 className="text-gray-600 text-3xl rounded-md text-center p-5 mb-4 bg-gray-300">User Progress</h1>
         <div className="flex flex-wrap">
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className="font-serif text-2xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded bg-gray-300 text-center shadow md:w-2/4">
+            <h2 className="font-serif text-2xl uppercase text-gray-500">
               BMI
             </h2>
-            <span className="text-5xl text-sky-500">19.9</span>
+            <span className="text-5xl text-gray-600">19.9</span>
             <p className="mt-4 text-xs dark:text-slate-300">Normal</p>
             {/* <p className="dark:text-slate-400 text-base"><strong>{"<"}16 :</strong> Severe Thinness</p> */}
             <div className="group relative mx-auto w-32 justify-center">
-              <span className="text- rounded font-bold text-sky-500 shadow-sm">
+              <span className="text- rounded font-bold text-gray-600 shadow-sm">
                 ⓘ
               </span>
-              <span className="absolute top-10 w-full scale-0 rounded bg-slate-900 p-2 px-4 text-left text-xs text-slate-400 shadow-lg transition-all group-hover:scale-100">
+              <span className="absolute top-10 w-full scale-0 rounded bg-gray-300 p-2 px-4 text-left text-xs text-gray-600 shadow-lg transition-all group-hover:scale-100">
                 Skinny: {"<18.5"} <br /> Normal: 18.5 - 25 <br /> Obese: {">25"}{" "}
               </span>
             </div>
           </div>
 
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className=" font-serif text-2xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded bg-gray-300 text-center shadow md:w-2/4">
+            <h2 className=" font-serif text-2xl uppercase text-gray-500">
               weight
             </h2>
-            <span className="text-5xl text-sky-500">Graph</span>
+            <span className="text-5xl text-gray-600">Graph</span>
             <p className="mt-4 text-xs dark:text-slate-300">here</p>
           </div>
 
 
-          <div className="py-8 w-full rounded bg-white text-center shadow dark:bg-slate-950 md:w-2/4">
-            <h2 className=" mb-6 font-serif text-xl uppercase dark:text-slate-400">
+          <div className="py-8 w-full rounded text-center shadow bg-gray-300 md:w-2/4">
+            <h2 className=" mb-6 font-serif text-xl uppercase dark:text-gray-500">
               Update Weight
             </h2>
             <input
@@ -73,17 +109,19 @@ const UserProgress = () => {
               name="weight"
               id="weight"
               placeholder=".kg"
+              value={weight}
               step={0.1}
-              className="w-1/4 rounded bg-gray-100 px-3 py-3 text-center text-xl dark:bg-slate-900 dark:text-slate-400"
+              onChange={(e) => { setWeight(e.target.value) }}
+              className="w-1/4 rounded px-3 py-3 text-center text-xl bg-gray-200 text-gray-600"
             />
-            <button className="mx-auto mt-4 block rounded-full border border-sky-500 p-3 text-xs text-sky-500 dark:hover:bg-slate-900">
+            {/*<button className="mx-auto mt-4 block rounded-full border border-gray-500 p-3 text-xs text-gray-600 hover:bg-gray-500 hover:text-gray-200">
               Click to Update
-            </button>
+            </button>*/}
           </div>
 
-          <div className="py-8 w-full rounded bg-white p-10 text-center shadow dark:bg-slate-950 md:w-2/4">
-            <label className="my-4 block cursor-pointer rounded-lg border-2 border-dashed border-sky-500 py-10">
-              <span className="mx-auto rounded-full bg-sky-500 px-4 py-1 text-center font-mono text-4xl font-bold  text-slate-900">
+          <div className="py-8 w-full rounded p-10 text-center shadow bg-gray-300 md:w-2/4">
+            <label className="my-4 block cursor-pointer rounded-lg border-2 border-dashed border-gray-600 py-10">
+              <span className="mx-auto rounded-full bg-gray-600 px-4 py-1 text-center font-mono text-4xl font-bold  text-gray-300">
                 +
               </span>
               <input
@@ -96,6 +134,10 @@ const UserProgress = () => {
               Upload your progress picture
             </p>
           </div>
+        </div>
+
+        <div>
+          <BMI data={bmiData} />
         </div>
       </main>
     </>

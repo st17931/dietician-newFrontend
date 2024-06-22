@@ -43,7 +43,6 @@ const App = () => {
           
           <Route path="/fitness" element={<Protectedroutes><FitnessCoach /></Protectedroutes>} />
           <Route path="/raiseRequest" element={<Protectedroutes><RaiseRequest /></Protectedroutes>} />
-
         </Routes>
       </Router>
     </>

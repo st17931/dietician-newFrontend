@@ -78,10 +78,10 @@ const UserProfile = () => {
 
   return (
     <div className="dark">
-      <main className="relative flex w-full flex-col  gap-4 bg-gray-100 p-5 dark:bg-slate-900 lg:flex-row">
-        <section className="left-0 top-20 h-fit w-full rounded-lg bg-white p-8 shadow-lg dark:bg-slate-950 lg:sticky lg:max-w-sm">
+      <main className="relative flex w-full flex-col  gap-4 bg-gray-100 p-5 lg:flex-row">
+        <section className="left-0 top-20 h-fit w-full rounded-lg bg-white p-8 shadow-lg dark:bg-gray-300 lg:sticky lg:max-w-sm">
           <div className="mb-8">
-            <h2 className="text-xl dark:text-slate-300">Profile</h2>
+            <h2 className="text-xl text-gray-600">Profile</h2>
           </div>
           <div className="w-full ">
             <div className="flex justify-center items-center">
@@ -101,107 +101,107 @@ const UserProfile = () => {
                 />
               </div>
             </div>
-            <div className="mb-4 mt-8 flex flex-col gap-2 px-4 font-medium dark:text-slate-200">
+            <div className="mb-4 mt-8 flex flex-col gap-2 px-4 font-medium dark:text-gray-600">
               <span className="w-fit">{firstName} {lastName}</span>
               <span className="w-fit">{email}</span>
               <span className="w-fit">{phoneNumber}</span>
-              <Link className="text-lime-500">Edit</Link>
+              <Link className="text-gray-600">Edit</Link>
             </div>
           </div>
         </section>
 
         <section>
-          <section className="w-full rounded-lg bg-white p-8 shadow-lg dark:bg-slate-950">
+          <section className="w-full rounded-lg p-8 shadow-lg bg-gray-200">
             <div className="mb-8">
-              <h2 className="text-xl dark:text-slate-300">Details</h2>
+              <h2 className="text-xl text-gray-600">Details</h2>
             </div>
             <div className="grid grid-cols-2 gap-4 dark:text-slate-200 md:grid-cols-3">
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
-                <h4 className="text-sm text-slate-700 dark:text-slate-500">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
+                <h4 className="text-sm text-gray-600">
                   Height
                 </h4>
-                <p>{height} cm</p>
+                <p className="text-gray-600">{height} cm</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Weight
                 </h4>
-                <p>{weight} kg</p>
+                <p className="text-gray-600">{weight} kg</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">Age</h4>
-                <p>{age}</p>
+                <p className="text-gray-600">{age}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Gender
                 </h4>
-                <p>{gender}</p>
+                <p className="text-gray-600">{gender}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Fitness Goal
                 </h4>
-                <p>{fitnessGoal}</p>
+                <p className="text-gray-600">{fitnessGoal}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Occupation
                 </h4>
-                <p>{occupation}</p>
+                <p className="text-gray-600">{occupation}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow ">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Sleeping Time
                 </h4>
-                <p>10:00pm to 06:00am</p>
+                <p className="text-gray-600">10:00pm to 06:00am</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Timing of Workout
                 </h4>
-                <p>05:00pm to 06:00pm</p>
+                <p className="text-gray-600">05:00pm to 06:00pm</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow ">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   No. of days in week
                 </h4>
-                <p>{gymDaysPerWeek}</p>
+                <p className="text-gray-600">{gymDaysPerWeek}</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Any Medical Condition
                 </h4>
-                <p>No</p>
+                <p className="text-gray-600">No</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Any Injuries
                 </h4>
-                <p>No</p>
+                <p className="text-gray-600">No</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Vegetarian or Non Veg
                 </h4>
-                <p>Non Veg</p>
+                <p className="text-gray-600">Non Veg</p>
               </div>
             </div>
             <div className="my-8">
-              <h2 className="text-xl dark:text-slate-300">Membership</h2>
+              <h2 className="text-xl text-gray-600">Membership</h2>
             </div>
             <div className="grid grid-cols-1 gap-4 dark:text-slate-200 md:grid-cols-2">
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Status
                 </h4>
-                <p>Active</p>
+                <p className="text-gray-600">Active</p>
               </div>
-              <div className="rounded-md bg-gray-100 px-8 py-4 shadow dark:bg-slate-900">
+              <div className="rounded-md bg-gray-300 px-8 py-4 shadow ">
                 <h4 className="text-sm text-slate-700 dark:text-slate-500">
                   Expires on
                 </h4>
-                <p>4th July, 2024</p>
+                <p className="text-gray-600">4th July, 2024</p>
               </div>
             </div>
           </section>
