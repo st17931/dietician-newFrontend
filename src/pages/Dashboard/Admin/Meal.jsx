@@ -3,7 +3,7 @@ import MealName from "./MealName";
 import { useState } from "react";
 
 
-const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData,updateMealName }) => {
+const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData,updateMealName,deleteMeals }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
     console.log("Meal component rendered");
@@ -31,6 +31,7 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
                     thirdDataObject={thirdDataObject} 
                     fourthIndexNumber={fourthIndexNumber}
                     updateMealName={updateMealName}
+                    deleteMeals={deleteMeals}
                     />
                 </caption>
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -95,25 +96,25 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={total.protein}
+                                value={total.protein || "0"}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={total.fat}
+                                value={total.fat || "0"}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={total.carbs}
+                                value={total.carbs || "0"}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>
                         <th className="px-6 py-4">
                             <input disabled
-                                value={total.calories}
+                                value={total.calories || "0"}
                                 className="outline-none p-1 w-full"
                                 type="number" name="" id="" />
                         </th>

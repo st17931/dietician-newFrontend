@@ -10,6 +10,7 @@ const RaiseRequest = () => {
     const inputRef = useRef();
     const token = localStorage.getItem("dietToken");
     const decoded = token ? decodeJwt(token) : null;
+    console.log("decoded is in Raise request", decoded)
 
     const handleSubmit = async (e) => {
         try{
@@ -17,6 +18,7 @@ const RaiseRequest = () => {
         let reqBody = {
             name: decoded.name,
             email:decoded.email,
+            phoneNumber: decoded.phoneNumber,
             description: inputRef.current.value
         }
         const res = await fetch("http://localhost:3333/request/postRequest", {

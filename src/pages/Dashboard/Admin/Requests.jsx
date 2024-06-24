@@ -5,6 +5,7 @@ import { LiaWhatsapp } from "react-icons/lia";
 
 const Requests = () => {
   const [allRequests, setAllRequests] = useState([]);
+  console.log("all requestinside requests.jsx", allRequests)
 
   async function handleDelete(comingIndex, id) {
     try {
@@ -30,8 +31,10 @@ const Requests = () => {
     }
   }
 
-  function openWhatsApp(phoneNumber){
-    const url = `https://wa.me/6387651169`;
+  function openWhatsApp(comingIndex){
+    //const request = allRequests.filter( (index)=> index != comingIndex);
+    const url = `https://wa.me/${6387651169}`;
+    console.log('url is',url)
     // const url = `https://web.whatsapp.com/send?phone=6387651169`
     window.open(url, '_blank');
   }
@@ -84,7 +87,7 @@ const Requests = () => {
                 </button>
                 <LiaWhatsapp
                   style={{ color: 'green', fontSize: '50px' }} 
-                  onClick={openWhatsApp}
+                  onClick={() => openWhatsApp(index)}
                   />
                   
               </div>

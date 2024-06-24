@@ -48,6 +48,8 @@ const SingleUser = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [showOptionData, setShowOptionData] = useState([])
 
+    console.log("new recommended meal is", recommendedMeal);
+
 
     async function handleRecommendedDiet() {
         console.log("meals recommended is", recommendedMeal);
@@ -69,23 +71,23 @@ const SingleUser = () => {
         }
     }
 
-    function addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,  newIngredientObject) {
-        
-        let newObj = {...recommendedMeal};
+    function addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newIngredientObject) {
+
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
         newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.push(newIngredientObject)
         setrecommendedMeal(newObj);
     }
 
-    function updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,ingredientIndex, newIngredientObject) {
-        let newObj = {...recommendedMeal};
+    function updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientIndex, newIngredientObject) {
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
         newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients[ingredientIndex] = newIngredientObject;
         setrecommendedMeal(newObj);
     }
 
-    function deleteIngredientData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber,ingredientIndex){
-        let newObj = {...recommendedMeal};
-        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients = newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.filter((value, index)=>{
-            if(index === ingredientIndex){
+    function deleteIngredientData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientIndex) {
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
+        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients = newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.filter((value, index) => {
+            if (index === ingredientIndex) {
                 return false;
             }
             return true;
@@ -93,14 +95,52 @@ const SingleUser = () => {
         setrecommendedMeal(newObj);
     }
 
-    function updateMealName(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newName){
-        let newObj = {...recommendedMeal};
+    function updateMealName(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newName) {
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
         newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].name = newName;
         setrecommendedMeal(newObj);
 
     }
 
-    
+    function deleteMeals(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber) {
+        console.log("fourth index no is", fourthIndexNumber);
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));                                     //{...recommendedMeal}; 
+        newObj[firstDataObject][secondDataObject][thirdDataObject] = newObj[firstDataObject][secondDataObject][thirdDataObject].filter((_, index) => {
+
+            if (index == fourthIndexNumber) {
+                console.log("index and fourth index are", index, fourthIndexNumber);
+                return false;
+            }
+            return true;
+        })
+        setrecommendedMeal(newObj);
+    }
+
+    function addMeal(firstDataObject, secondDataObject, thirdDataObject) {
+        let newMeal = {
+            name: "Random pls Change",
+            ingredients: [
+                {
+                    item: "",
+                    protein: "",
+                    fat: "",
+                    carbs: "",
+                    calories: ""
+                }
+            ],
+            total:{
+                protein: "",
+                fat: "",
+                carbs: "",
+                calories: ""
+            }
+        }
+        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
+        newObj[firstDataObject][secondDataObject][thirdDataObject].push(newMeal);
+        setrecommendedMeal(newObj);
+    }
+
+
 
     const handleSelectChange = (e) => {
         const selectedMeal = totalMeals.filter((meal) => meal.categoryName === e.target.value)
@@ -343,7 +383,7 @@ const SingleUser = () => {
 
 
 
-                <div className='flex flex-row'>
+                <div className='flex flex-row gap-2'>
                     {showOptions && showOptionData.map((value) => (
                         <button
                             className={`bg-green-600 text-white rounded p-0.5 px-2 ${(value === selectedButton) ? 'border-solid border-4 border-indigo-600' : ''}`}
@@ -384,6 +424,13 @@ const SingleUser = () => {
                                         <h2 className="mb-4 text-lg text-emerald-600 dark:text-slate-300">
                                             {value2.toUpperCase()}
                                         </h2>
+                                        <button
+                                            className={`bg-green-600 text-white rounded p-0.5 px-2`}
+                                            
+                                            onClick={() => addMeal(selectedButton, value1, value2)}
+                                        >
+                                            Add More
+                                        </button>
                                         {recommendedMeal[selectedButton][value1][value2].map((value3, index) => (
                                             <Meal
                                                 key={index}
@@ -398,10 +445,12 @@ const SingleUser = () => {
                                                 thirdDataObject={value2}
                                                 fourthIndexNumber={index}
                                                 updateIngredientsData={updateIngredientsData}
-                                                deleteIngredientData = {deleteIngredientData}
-                                                updateMealName = {updateMealName}
+                                                deleteIngredientData={deleteIngredientData}
+                                                updateMealName={updateMealName}
+                                                deleteMeals={deleteMeals}
                                             />
                                         ))}
+
                                     </div>
                                 );
                             }

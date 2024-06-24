@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-export default function MealName({name, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, updateMealName}){
+export default function MealName({name, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, updateMealName,deleteMeals}){
     console.log("Meal Name component rendered")
     const [editMealName, setEditMealName] = useState(false);
     const [mealName, setMealName] = useState(name);
@@ -12,14 +12,26 @@ export default function MealName({name, firstDataObject, secondDataObject, third
         setEditMealName(false);
     }
 
+    function handleDelete(){
+        deleteMeals(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber);
+    }
+
     return(
         <>
-        {!editMealName && <h6
+        {!editMealName && <><h6
             className="mb-4 text-lg text-emerald-600 dark:text-slate-300"
             onClick={() => setEditMealName(true)}
         >
             {mealName}
         </h6>
+        
+        <button 
+                className="font-medium text-rose-500 hover:underline"
+                onClick={handleDelete}
+                >
+                    <i className="ai ai-trash-fill mx-1"></i>
+                </button>
+        </>
         }
 
         {
