@@ -5,7 +5,7 @@ let initialState = {
 
 
 export default function authReducer(state=initialState, action){
-    console.log("action .payload in the aut reducer", action.payload);
+    //console.log("action .payload in the aut reducer", action.payload);
     if(action.type == "ADMIN_LOGIN_SUCCESS"){
         return{
             ...state,

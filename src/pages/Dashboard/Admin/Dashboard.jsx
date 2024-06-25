@@ -9,12 +9,12 @@ const Dashboard = () => {
   
   useEffect(()=>{
     async function fetchdata(){
-      console.log("data fetching in the dashboard starts...!!")
+      //console.log("data fetching in the dashboard starts...!!")
       const data = await fetch("http://localhost:3333/users/allUser");
       const resData = await data.json();
-      console.log("response received", resData);
+      //console.log("response received", resData);
       dispatch(setUserDetails(resData.data))
-      console.log("Action is dispatched in the fetchdata function")
+      //onsole.log("Action is dispatched in the fetchdata function")
     }
     fetchdata();
 
@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   },[])
 
-  console.log("Dashboard is runned")
+  //console.log("Dashboard is runned")
   return (
     <div className="flex">
       <header className="absolute w-full md:w-72 md:min-w-72 lg:relative">

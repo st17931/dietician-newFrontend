@@ -1,12 +1,11 @@
 import MealIngredientRow from "./MealIngredientRow";
 import MealName from "./MealName";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, addIngredients, updateIngredientsData, deleteIngredientData,updateMealName,deleteMeals }) => {
 
     // const [ingredientsState, setIngredientsState] = useState(ingredients);
-    console.log("Meal component rendered");
 
     function handleAddMore() {
         addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, {
@@ -17,6 +16,8 @@ const Meal = ({ ingredients, name, index, total, note, firstDataObject, secondDa
             calories: 0
         })
     }
+
+    
 
 
     return (

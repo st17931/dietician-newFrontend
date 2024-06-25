@@ -2,7 +2,6 @@ import { useState } from "react";
 
 
 export default function MealName({name, firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, updateMealName,deleteMeals}){
-    console.log("Meal Name component rendered")
     const [editMealName, setEditMealName] = useState(false);
     const [mealName, setMealName] = useState(name);
 
@@ -22,7 +21,7 @@ export default function MealName({name, firstDataObject, secondDataObject, third
             className="mb-4 text-lg text-emerald-600 dark:text-slate-300"
             onClick={() => setEditMealName(true)}
         >
-            {mealName}
+            {name}
         </h6>
         
         <button 

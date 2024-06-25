@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import Meal from './Meal';
 import getProfilePic from '../../../sideEffects/getProfilePic';
 
@@ -48,75 +48,103 @@ const SingleUser = () => {
     const [showOptions, setShowOptions] = useState(false);
     const [showOptionData, setShowOptionData] = useState([])
 
-    console.log("new recommended meal is", recommendedMeal);
+
+    console.log("new recommended diet is", recommendedMeal);
 
 
     async function handleRecommendedDiet() {
-        console.log("meals recommended is", recommendedMeal);
-        const response = await fetch("http://localhost:3333/users/addUserDiet", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email: location.state.userData.email,
-                diet: recommendedMeal
+        try {
+            console.log("meals recommended is", recommendedMeal);
+            const response = await fetch("http://localhost:3333/users/addUserDiet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: location.state.userData.email,
+                    diet: recommendedMeal
+                })
             })
-        })
-        const jsonResponse = await response.json();
-        if (jsonResponse.success) {
-            toast.success(jsonResponse.message);
-        } else {
-            toast.error("Got some error");
+            const jsonResponse = await response.json();
+            if (jsonResponse.success) {
+                toast.success(jsonResponse.message);
+            } else {
+                toast.error("Got some error");
+            }
+        } catch (error) {
+            toast.error("Got some error", error)
         }
     }
 
     function addIngredients(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newIngredientObject) {
-
-        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
-        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.push(newIngredientObject)
-        setrecommendedMeal(newObj);
+        try {
+            let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
+            newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.push(newIngredientObject)
+            setrecommendedMeal(newObj);
+            toast.success("Successfully added")
+        } catch (error) {
+            toast.error("Got some error");
+        }
     }
 
     function updateIngredientsData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientIndex, newIngredientObject) {
-        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
-        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients[ingredientIndex] = newIngredientObject;
-        setrecommendedMeal(newObj);
+        try {
+            let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
+            newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients[ingredientIndex] = newIngredientObject;
+            setrecommendedMeal(newObj);
+            toast.success("Successfully updated");
+        } catch (error) {
+            toast.error("Got some error");
+        }
     }
 
     function deleteIngredientData(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, ingredientIndex) {
-        let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
-        newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients = newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.filter((value, index) => {
-            if (index === ingredientIndex) {
-                return false;
-            }
-            return true;
-        })
-        setrecommendedMeal(newObj);
+        try {
+            let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
+            newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients = newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].ingredients.filter((value, index) => {
+                if (index === ingredientIndex) {
+                    return false;
+                }
+                return true;
+            })
+            setrecommendedMeal(newObj);
+            toast.success("Successfully deleted");
+        } catch (error) {
+            toast.error("Got some error");
+        }
     }
 
     function updateMealName(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber, newName) {
+        try{
         let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
         newObj[firstDataObject][secondDataObject][thirdDataObject][fourthIndexNumber].name = newName;
         setrecommendedMeal(newObj);
+        toast.success("Successfully updated")
+        }catch(error){
+            toast.error("Got some error", error);
+        }
 
     }
 
     function deleteMeals(firstDataObject, secondDataObject, thirdDataObject, fourthIndexNumber) {
-        console.log("fourth index no is", fourthIndexNumber);
+        try{
         let newObj = JSON.parse(JSON.stringify(recommendedMeal));                                     //{...recommendedMeal}; 
         newObj[firstDataObject][secondDataObject][thirdDataObject] = newObj[firstDataObject][secondDataObject][thirdDataObject].filter((_, index) => {
 
             if (index == fourthIndexNumber) {
-                console.log("index and fourth index are", index, fourthIndexNumber);
                 return false;
             }
             return true;
         })
         setrecommendedMeal(newObj);
+        toast.success("Successfully deleted");
+    }catch(error){
+        toast.error("Got some error", error);
+    }
     }
 
     function addMeal(firstDataObject, secondDataObject, thirdDataObject) {
+        try{
         let newMeal = {
             name: "Random pls Change",
             ingredients: [
@@ -128,7 +156,7 @@ const SingleUser = () => {
                     calories: ""
                 }
             ],
-            total:{
+            total: {
                 protein: "",
                 fat: "",
                 carbs: "",
@@ -138,11 +166,16 @@ const SingleUser = () => {
         let newObj = JSON.parse(JSON.stringify(recommendedMeal));;
         newObj[firstDataObject][secondDataObject][thirdDataObject].push(newMeal);
         setrecommendedMeal(newObj);
+        toast.success("Succesfuly added in the last")
+    }catch(error){
+        toast.error("Got some error")
+    }
     }
 
 
 
     const handleSelectChange = (e) => {
+        try{
         const selectedMeal = totalMeals.filter((meal) => meal.categoryName === e.target.value)
         setrecommendedMeal(selectedMeal[0]);
         let options = Object.keys(selectedMeal[0]);
@@ -154,10 +187,18 @@ const SingleUser = () => {
         })
         setShowOptions(true)
         setShowOptionData(optionsData);
+    }catch(error){
+        toast.error("Got some error", error);
+    }
+
     };
 
     const handleOptionChange = (e) => {
+        try{
         setSelectedButton(e.target.name);
+    }catch(error){
+        toast.error("Got some error",error);
+    }
     }
 
     const height = location.state.userData.height / 100
@@ -174,6 +215,7 @@ const SingleUser = () => {
 
     useEffect(() => {
         async function fetchImage() {
+            console.log("email is", location.state.userData.email)
             try {
                 const res = await fetch("http://localhost:3333/users/getUsersPic", {
                     method: "POST",
@@ -209,6 +251,7 @@ const SingleUser = () => {
 
     return (
         <main className="mx-4 my-4 p-2 md:mx-8 lg:mx-16">
+
             <section className="w-full rounded-lg bg-white p-8 mb-10 shadow-lg ">
                 {/* <div className="flex md:justify-end flex-wrap gap-y-4 mb-8">
                     <button type="button"
@@ -426,13 +469,13 @@ const SingleUser = () => {
                                         </h2>
                                         <button
                                             className={`bg-green-600 text-white rounded p-0.5 px-2`}
-                                            
+
                                             onClick={() => addMeal(selectedButton, value1, value2)}
                                         >
                                             Add More
                                         </button>
-                                        {recommendedMeal[selectedButton][value1][value2].map((value3, index) => (
-                                            <Meal
+                                        {recommendedMeal[selectedButton][value1][value2].map((value3, index) => {
+                                            return <Meal
                                                 key={index}
                                                 ingredients={value3.ingredients}
                                                 name={value3.name}
@@ -449,7 +492,7 @@ const SingleUser = () => {
                                                 updateMealName={updateMealName}
                                                 deleteMeals={deleteMeals}
                                             />
-                                        ))}
+                                        })}
 
                                     </div>
                                 );
@@ -479,16 +522,16 @@ const SingleUser = () => {
 
                 </div>
 
-                {(Object.keys(recommendedMeal).length > 0) ? <button
+                {selectedButton && <button
                     className="bg-green-600 text-white rounded p-0.5 px-2 m-2"
                     onClick={handleRecommendedDiet}
                 >
                     Recommend Diet
-                </button> : null}
+                </button>}
 
             </section>
 
-            <section className="w-full rounded-lg bg-white p-8 mb-10 shadow-lg">
+            {/* <section className="w-full rounded-lg bg-white p-8 mb-10 shadow-lg">
                 <div className="mb-8">
                     <h2 className="text-xl dark:text-slate-300">Workout Plan</h2>
                 </div>
@@ -842,7 +885,7 @@ const SingleUser = () => {
 
 
 
-            </section>
+            </section> */}
         </main>
     )
 }
