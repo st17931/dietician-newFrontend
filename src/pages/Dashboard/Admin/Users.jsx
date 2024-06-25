@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const Users = () => {
   const allUser = useSelector((state) => state.allUser.userArr || []);
   return (
-    <main className="mt-[95%] mx-auto my-6 p-10 md:mt-[12%] lg:mt-0">
+    <main className="mx-auto my-6 p-10 lg:mt-0">
       <h1 className="mb-8 text-3xl text-black">
         <i className="ai ai-user-fill mr-3 text-2xl text-black"></i>
         Users

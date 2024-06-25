@@ -6,37 +6,39 @@ import { setUserDetails } from "../../../Redux/userDetails/action";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  
-  useEffect(()=>{
-    async function fetchdata(){
-      //console.log("data fetching in the dashboard starts...!!")
+  const [isOpen, setIsOpen] = useState(false); // State to manage sidebar visibility
+
+  useEffect(() => {
+    async function fetchData() {
+      console.log("Data fetching in the dashboard starts...!!");
       const data = await fetch("http://localhost:3333/users/allUser");
       const resData = await data.json();
-      //console.log("response received", resData);
-      dispatch(setUserDetails(resData.data))
-      //onsole.log("Action is dispatched in the fetchdata function")
+      console.log("Response received", resData);
+      dispatch(setUserDetails(resData.data));
+      console.log("Action is dispatched in the fetchData function");
     }
-    fetchdata();
+    fetchData();
 
-
-    const intervalId = setInterval(fetchdata, 10000);
+    const intervalId = setInterval(fetchData, 10000);
 
     // Clean up function to clear interval on component unmount
     return () => clearInterval(intervalId);
+  }, [dispatch]);
 
-  },[])
+  console.log("Dashboard is run");
 
-  //console.log("Dashboard is runned")
   return (
     <div className="flex">
-      <header className="absolute w-full md:w-72 md:min-w-72 lg:relative">
-        <Sidebar />
-      </header>
-      <main className="container h-full min-h-screen text-black px-2">
+      {/* Sidebar */}
+      <Sidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
+      {/* Main Content */}
+      <main className={`container h-full min-h-screen text-black px-2 relative ${isOpen ? "mt-0" : "mt-0 lg:mt-0"}`}>
+        {/* Hamburger Icon for small screens */}
         <button
-          className="m-2 rounded-md p-2 shadow lg:hidden"
+          className="m-2 rounded-md p-2 shadow lg:hidden z-50"
           type="button"
-          onClick={() => setToggle(!toggle)}
+          onClick={() => setIsOpen(!isOpen)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,17 +47,17 @@ const Dashboard = () => {
             stroke="currentColor"
             className="h-6 w-6"
           >
-            {" "}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
               d="M4 6h16M4 12h16M4 18h16"
-            ></path>{" "}
+            ></path>
           </svg>
         </button>
 
-        <Outlet />        
+        {/* Outlet for nested routes */}
+        <Outlet />
       </main>
     </div>
   );
