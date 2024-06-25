@@ -160,11 +160,7 @@ const Users = () => {
                   scope="row"
                   className="flex items-center whitespace-nowrap px-6 py-4 text-gray-900 dark:text-white"
                 >
-                  <img
-                    className="h-10 w-10 rounded-full object-cover"
-                    src="https://source.unsplash.com/random/?man"
-                    alt="Jese image"
-                  />
+                  
                   <div className="ps-3">
                     <div className="text-base font-semibold">{`${user.firstName + user.lastName}`}</div>
                     <div className="font-normal text-gray-500">
@@ -193,8 +189,10 @@ const Users = () => {
 
           </tbody>
         </table>
+          
 
-        <nav className="my-4 mx-auto w-fit" aria-label="Page navigation">
+        {/* Pagination */}
+        {/* <nav className="my-4 mx-auto w-fit" aria-label="Page navigation">
           <ul className="flex items-center -space-x-px h-8 text-sm">
             <li>
               <a href="#" className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -228,7 +226,7 @@ const Users = () => {
               </a>
             </li>
           </ul>
-        </nav>
+        </nav> */}
       </div>
       {/* <Outlet/> */}
     </main>
