@@ -28,14 +28,6 @@ function Step2({ handleChange }) {
         <div className="mt-8 sm:w-[500px]">
           <div className="flex flex-wrap justify-center">
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Do you consume alcohol?"
-                name="alcoholConsumption"
-                value={formData.alcohol}
-                onChange={handleInputChange}
-              /> */}
 
               <select
                 onChange={handleInputChange}
@@ -48,22 +40,8 @@ function Step2({ handleChange }) {
                 <option value="No">No</option>
               </select>
 
-
-
-
-
-
-
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Do you smoke?"
-                name="smoking"
-                value={formData.smoke}
-                onChange={handleInputChange}
-              /> */}
 
               <select
                 onChange={handleInputChange}
@@ -79,14 +57,6 @@ function Step2({ handleChange }) {
             </div>
 
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Daily Breakfast"
-                name="dailyBreakfast"
-                value={formData.breakfast}
-                onChange={handleInputChange}
-              /> */}
 
               <select
                 onChange={handleInputChange}
@@ -103,14 +73,7 @@ function Step2({ handleChange }) {
 
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Daily Lunch"
-                name="dailyLunch"
-                value={formData.lunch}
-                onChange={handleInputChange}
-              /> */}
+             
 
               <select
                 onChange={handleInputChange}
@@ -125,14 +88,7 @@ function Step2({ handleChange }) {
 
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Daily Snacks"
-                name="dailySnacks"
-                value={formData.snacks}
-                onChange={handleInputChange}
-              /> */}
+              
 
               <select
                 onChange={handleInputChange}
@@ -149,14 +105,7 @@ function Step2({ handleChange }) {
 
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              {/* <input
-                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
-                type="text"
-                placeholder="Daily Dinner"
-                name="dailyDinner"
-                value={formData.dinner}
-                onChange={handleInputChange}
-              /> */}
+    
 
               <select
                 onChange={handleInputChange}
