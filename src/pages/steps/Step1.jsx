@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Slide } from "react-awesome-reveal";
 
@@ -24,14 +25,32 @@ function Step1({ handleChange }) {
         <div className="mt-8 sm:w-[500px]">
           <div className="flex flex-wrap justify-center p-1.5">
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Gender"
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="gender"
+                value={formData.gender}
+                className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+
+
+
+
+
+
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
               <input

@@ -4,7 +4,6 @@ import Auth from "./pages/Auth.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
-import UserProgress from "./pages/UserProgress.jsx";
 import UserDetailForm from "./pages/UserDetailForm.jsx";
 import AdminPanel from "./pages/Dashboard/Admin/AdminPanel.jsx";
 import UserTicket from "./pages/Dashboard/Admin/UserTicket.jsx";
@@ -40,9 +39,9 @@ const App = () => {
           </Route>
 
           <Route path="/UserProfile" element={<Protectedroutes><UserProfile /></Protectedroutes>} />
-          
           <Route path="/fitness" element={<Protectedroutes><FitnessCoach /></Protectedroutes>} />
           <Route path="/raiseRequest" element={<Protectedroutes><RaiseRequest /></Protectedroutes>} />
+
         </Routes>
       </Router>
     </>

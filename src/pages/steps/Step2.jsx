@@ -28,65 +28,148 @@ function Step2({ handleChange }) {
         <div className="mt-8 sm:w-[500px]">
           <div className="flex flex-wrap justify-center">
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Do you consume alcohol?"
                 name="alcoholConsumption"
                 value={formData.alcohol}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="alcoholConsumption"
+                value={formData.alcohol}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Do you consume alcohol?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
+
+
+
+
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Do you smoke?"
                 name="smoking"
                 value={formData.smoke}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="smoking"
+                value={formData.smoke}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Do you smoke?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
             </div>
 
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Daily Breakfast"
                 name="dailyBreakfast"
                 value={formData.breakfast}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="dailyBreakfast"
+                value={formData.breakfast}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Daily Breakfast?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Daily Lunch"
                 name="dailyLunch"
                 value={formData.lunch}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="dailyLunch"
+                value={formData.lunch}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Daily Lunch?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Daily Snacks"
                 name="dailySnacks"
                 value={formData.snacks}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="dailySnacks"
+                value={formData.snacks}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Daily Snacks?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Daily Dinner"
                 name="dailyDinner"
                 value={formData.dinner}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="dailyDinner"
+                value={formData.dinner}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Daily Dinner?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
             </div>
 
             <div className="w-full p-1.5 sm:w-1/2">

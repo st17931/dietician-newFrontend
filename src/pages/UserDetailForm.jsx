@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { Step1, Step2, Step3, Step4 } from "./steps";
-import bg6 from "../assets/bg-6.png";
-import axios from "axios";
+import bg6 from "../assets/bg-6.png"
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,43 +24,37 @@ function UserDetailForm() {
   let location = useLocation();
   console.log("location value  in the userDetailForm is", location.state.key);
 
-  const handleBackButton = () => {
-    toast.warn(
-      "All data saved will be lost. Please fill your details to get personalized training/diet plan.",
-      {
-        autoClose: 5000,
-      },
-    );
+  // const handleBackButton = () => {
 
-    // setTimeout(() => {
-    //   toast.warn('Are you sure you want to continue? You will be redirected to the login page.', {
-    //     autoClose: 5000
-    //   });
-    // }, 6000);
+  //   setTimeout(() => {
+  //     toast.warn('Are you sure you want to continue? You will be redirected to the login page.', {
+  //       autoClose: 5000
+  //     });
+  //   }, 6000);
 
-    // setTimeout(() => {
-    //   navigate('/auth/login');
-    // }, 12000);
-  };
+  //   setTimeout(() => {
+  //     navigate('/auth/login');
+  //   }, 12000);
+  // };
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      e.returnValue = ""; // This will display the browser's default prompt message
-      return ""; // This is required for Chrome
-    };
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     e.returnValue = ""; // This will display the browser's default prompt message
+  //     return ""; // This is required for Chrome
+  //   };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
 
-    handleBackButton();
+  //   handleBackButton();
 
-    window.addEventListener("popstate", handleBackButton);
+  //   window.addEventListener("popstate", handleBackButton);
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //     window.removeEventListener("popstate", handleBackButton);
+  //   };
+  // }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [formData, setFormData] = useState({
@@ -100,7 +94,7 @@ function UserDetailForm() {
     const completeUserData = {...location.state.key, ...formData}
     console.log("complete user data is", completeUserData);
 
-    const sendUserData = await fetch("https://dietician-backend-iryh.onrender.com/users/addUser",{
+    const sendUserData = await fetch("http://localhost:3333/users/addUser",{
         method:"POST",
         headers:{
           "Content-Type":"application/json"
@@ -127,7 +121,6 @@ function UserDetailForm() {
 
   const previousPage = () => {
     setCurrentPage(currentPage - 1);
-    // handleBackButton();
   };
 
   const renderPage = () => {
@@ -147,7 +140,7 @@ function UserDetailForm() {
               <Button onClick={previousPage} text="Back" />
               <Button
                 onClick={nextPage}
-                handleBackButton={handleBackButton}
+                // handleBackButton={handleBackButton}
                 text="Next"
               />
             </div>

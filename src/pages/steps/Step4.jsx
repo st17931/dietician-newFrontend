@@ -26,24 +26,49 @@ function Step4({ handleChange }) {
         <div className="mt-8 sm:w-[500px]">
           <div className="flex flex-wrap justify-center">
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Do you have any injuries?"
                 name="injuries"
                 value={formData.injuries}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="injuries"
+                value={formData.injuries}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Do you have any injuries?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+
+
+
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
-              <input
+              {/* <input
                 className="h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
                 type="text"
                 placeholder="Do you have any allergies"
                 name="allergies"
                 value={formData.allergies}
                 onChange={handleInputChange}
-              />
+              /> */}
+
+              <select
+                onChange={handleInputChange}
+                name="allergies"
+                value={formData.allergies}
+                className="select-hide h-10 w-full rounded-md border-gray-300 bg-slate-200 px-3 py-2 text-sm placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1"
+              >
+                <option value="" selected disabled hidden>Do you have any allergies?</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
             </div>
             <div className="w-full p-1.5 sm:w-1/2">
               <input

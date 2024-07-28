@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import  { useState } from "react";
+import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { Slide } from "react-awesome-reveal";
 import Register from "../assets/back.jpg";
@@ -86,7 +86,7 @@ const Signup = () => {
   };
   return (
     <section className="relative">
-      <ToastContainer />
+      
       <div className="absolute bottom-0 left-0 right-0 top-0 z-20 sm:p-10">
         <div className="flex flex-col items-center justify-center mt-10 lg:justify-center lg:px-8 lg:py-16 xl:py-10 xl:justify-center">
           <Slide>
