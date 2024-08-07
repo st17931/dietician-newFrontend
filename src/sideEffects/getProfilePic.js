@@ -1,7 +1,10 @@
+import BASE_URL from "../constants.js"
+
+
 export default async function getProfilePic(email) {
     console.log("inside getprofiledata in userprofile", email)
     try{
-    const response = await fetch("http://localhost:3333/users/getProfilePic", {
+    const response = await fetch(`${BASE_URL}/users/getProfilePic`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

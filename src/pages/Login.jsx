@@ -6,6 +6,7 @@ import { adminLoginSuccess, userLoginSuccess } from "../Redux/auth/action";
 import { useDispatch } from "react-redux";
 import { decodeJwt } from "../middelwares";
 import Image2 from "../assets/back.jpg";
+import BASE_URL from "../constants.js"
 
 function Login() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function Login() {
       }
       setLoading(true);
       // Send POST request to backend for login
-      const response = await fetch("http://localhost:3333/login", {
+      const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
 import { decodeJwt } from '../middelwares';
+import BASE_URL from '../constants.js'
 import React from 'react';
 
 
@@ -21,7 +22,7 @@ const RaiseRequest = () => {
             phoneNumber: decoded.phoneNumber,
             description: inputRef.current.value
         }
-        const res = await fetch("http://localhost:3333/request/postRequest", {
+        const res = await fetch(`${BASE_URL}/request/postRequest`, {
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from "react-toastify";
 import Meal from './Meal';
 import getProfilePic from '../../../sideEffects/getProfilePic';
+import BASE_URL from '../../../constants.js'
 
 
 const ImageComponent = ({ gifData }) => {
@@ -55,7 +56,7 @@ const SingleUser = () => {
     async function handleRecommendedDiet() {
         try {
             console.log("meals recommended is", recommendedMeal);
-            const response = await fetch("http://localhost:3333/users/addUserDiet", {
+            const response = await fetch(`${BASE_URL}/users/addUserDiet`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -206,7 +207,7 @@ const SingleUser = () => {
 
     useEffect(() => {
         const fetchMealData = async () => {
-            const response = await fetch(`http://localhost:3333/diet/getMeal`)
+            const response = await fetch(`${BASE_URL}/diet/getMeal`)
             const jsonResponse = await response.json();
             setTotalMeals(jsonResponse.data);
         }
@@ -217,7 +218,7 @@ const SingleUser = () => {
         async function fetchImage() {
             console.log("email is", location.state.userData.email)
             try {
-                const res = await fetch("http://localhost:3333/users/getUsersPic", {
+                const res = await fetch(`${BASE_URL}/users/getUsersPic`, {
                     method: "POST",
                     body: JSON.stringify({ email: location.state.userData.email })
                 });

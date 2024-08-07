@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { decodeJwt } from "../../../middelwares"
 import { toast } from "react-toastify"
+import BASE_URL from "../../../constants.js"
 
 
 
@@ -15,7 +16,7 @@ const Meals = () => {
             try {
                 const decoded = decodeJwt(localStorage.getItem("dietToken"));
                 console.log("decoded in meals", decoded);
-                const response = await fetch("http://localhost:3333/users/getUserDiet", {
+                const response = await fetch(`${BASE_URL}/users/getUserDiet`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 //import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import BASE_URL from '../constants.js'
 
 const UserProfile = () => {
 
@@ -18,7 +19,7 @@ const UserProfile = () => {
 
   async function getProfileData() {
     console.log("inside getprofiledata in userprofile", email)
-    const response = await fetch("http://localhost:3333/users/getProfilePic", {
+    const response = await fetch(`${BASE_URL}/users/getProfilePic`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -60,7 +61,7 @@ const UserProfile = () => {
     formData.append('image', e.target.files[0]);
     formData.append('email', JSON.stringify(decode.userData.email));
 
-    const response = await fetch("http://localhost:3333/users/addProfilePic", {
+    const response = await fetch(`${BASE_URL}/users/addProfilePic`, {
       method : "POST",
       body : formData
     });

@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../../Redux/userDetails/action";
+import BASE_URL from "../../../constants.js"
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const Dashboard = () => {
   useEffect(()=>{
     async function fetchdata(){
       //console.log("data fetching in the dashboard starts...!!")
-      const data = await fetch("http://localhost:3333/users/allUser");
+      const data = await (`${BASE_URL}/users/allUser`);
       const resData = await data.json();
       //console.log("response received", resData);
       dispatch(setUserDetails(resData.data))

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from 'react-router-dom';
+import BASE_URL from "../constants.js"
 
 function Button({ onClick, text }) {
 
@@ -94,7 +95,7 @@ function UserDetailForm() {
     const completeUserData = {...location.state.key, ...formData}
     console.log("complete user data is", completeUserData);
 
-    const sendUserData = await fetch("http://localhost:3333/users/addUser",{
+    const sendUserData = await fetch(`${BASE_URL}/users/addUser`,{
         method:"POST",
         headers:{
           "Content-Type":"application/json"

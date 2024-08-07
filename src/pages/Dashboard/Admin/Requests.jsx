@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LiaWhatsapp } from "react-icons/lia";
+import BASE_URL from '../../../constants.js'
 
 
 const Requests = () => {
@@ -9,7 +10,7 @@ const Requests = () => {
 
   async function handleDelete(comingIndex, id) {
     try {
-      const res = await fetch("http://localhost:3333/request/deleteRequest", {
+      const res = await fetch(`${BASE_URL}/request/deleteRequest`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"
@@ -42,7 +43,7 @@ const Requests = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch("http://localhost:3333/request/getRequest");
+        const res = await fetch(`${BASE_URL}/request/getRequest`);
         const jsonres = await res.json();
         if (jsonres.success) {
           setAllRequests(jsonres.data);

@@ -3,16 +3,10 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import BMI from './BMI.jsx';
 import axios from "axios";
+import BASE_URL from '../constants.js'
 
 const UserProgress = () => {
 
-  // const bmiData = [
-  //   { date: '2024-01-01', height: 170 },
-  //   { date: '2024-02-01', height: 150},
-  //   { date: '2024-03-01', height: 160},
-  //   { date: '2024-04-01', height: 190},
-  //   { date: '2024-05-01', height: 140},
-  // ];
 
   const [bmiData, setBmiData] = useState({});
 
@@ -25,7 +19,7 @@ const UserProgress = () => {
 
   async function getBMI() {
     try {
-      const response = await axios.post("http://localhost:3333/users/getProgressWeight", {
+      const response = await axios.post(`${BASE_URL}/users/getProgressWeight`, {
         email: "yogesh@gmail.com"
       })
   
@@ -51,7 +45,7 @@ const UserProgress = () => {
       formData.append('email', JSON.stringify(decoded.userData.email));
       formData.append('weight', JSON.stringify(weight));
 
-      const res = await fetch("http://localhost:3333/users/uploadpic", {
+      const res = await fetch(`${BASE_URL}/users/uploadpic`, {
         method: "POST",
         body: formData
       });
